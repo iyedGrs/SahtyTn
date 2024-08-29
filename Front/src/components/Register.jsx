@@ -16,8 +16,14 @@ const Register = () => {
     // dispatch(loginUser({ email, password }));
     console.log(data);
   };
-  const [selectedRole, setSelectedRole] = useState("");
-
+  const [selectedOption, setSelectedOption] = useState({
+    value: "",
+    index: null,
+  });
+  const handleSelectChange = (e) => {
+    const { value } = e.target;
+    setSelectedOption({ value, index: value === "docteur" ? 1 : 0 });
+  };
   return (
     <div className="w-full md:h-full font-Josefin flex mx-auto container items-center justify-center  overflow-hidden">
       <div className="w-full h-full mb-10  bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] md:flex">
@@ -41,15 +47,41 @@ const Register = () => {
               <select
                 name="cars"
                 id="cars"
+                value={selectedOption.value}
+                onChange={handleSelectChange}
                 className=" rounded-md  block w-full px-4 md:px-8 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
                 <option value="" hidden>
                   je suis{" "}
                 </option>
-                <option value="">docteur</option>
-                <option value="">patient</option>
+                <option value="docteur">docteur</option>
+                <option value="patient">patient</option>
               </select>
-              {RegisterFields.map((field) => (
+              {selectedOption.value && (
+                <div key={RegisterFields[selectedOption.index].id} className="">
+                  <label
+                    htmlFor={RegisterFields[selectedOption.index].id}
+                    className="sr-only"
+                  >
+                    {RegisterFields[selectedOption.index].label}
+                  </label>
+                  <input
+                    id={RegisterFields[selectedOption.index].id}
+                    name={RegisterFields[selectedOption.index].name}
+                    type={RegisterFields[selectedOption.index].type}
+                    autoComplete={
+                      RegisterFields[selectedOption.index].autoComplete
+                    }
+                    required
+                    {...register(RegisterFields[selectedOption.index].name)}
+                    className="appearance-none rounded-md  block w-full px-4 md:px-8 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    placeholder={
+                      RegisterFields[selectedOption.index].placeholder
+                    }
+                  />
+                </div>
+              )}
+              {RegisterFields.slice(2).map((field) => (
                 <div key={field.id} className="">
                   <label htmlFor={field.id} className="sr-only">
                     {field.label}
