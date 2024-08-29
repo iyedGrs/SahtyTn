@@ -25,6 +25,22 @@ export const inputFields = [
 
 export const RegisterFields = [
   {
+    id: "cin",
+    name: "cin",
+    type: "number",
+    autoComplete: "cin",
+    placeholder: "enter cin",
+    label: "cin",
+  },
+  {
+    id: "id_docteur",
+    name: "id_docteur",
+    type: "number",
+    autoComplete: "id_docteur",
+    placeholder: "enter id_docteur",
+    label: "id_docteur",
+  },
+  {
     id: "username",
     name: "username",
     type: "text",
