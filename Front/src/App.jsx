@@ -4,6 +4,7 @@ import UserLayout from "./RootLayout/page";
 import Login from "./components/Login";
 import About from "./components/About";
 import Contact from "./components/Contact";
+import Register from "./components/Register";
 import RootLayout from "./PatientDocLayout/page";
 import Home from "./pages/Home";
 function App() {
@@ -12,8 +13,11 @@ function App() {
     <Routes>
       {!isAuth ? (
         <Route path="/" element={<UserLayout />}>
-          <Route index element={<Login />} />
+          <Route index element={<Login />}></Route>
+
+          <Route path="register" element={<Register />} />
           <Route path="contact" element={<Contact />} />
+
           <Route path="about" element={<About />} />
           <Route path="home" element={<Home />} />
         </Route>

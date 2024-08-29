@@ -6,6 +6,7 @@ export default {
       fontFamily: {
         "bungee-tint": ['"Bungee Tint"', "sans-serif"],
         Josefin: ["Josefin Sans", "sans-serif"],
+        Matemasie: ["Matemasie", "sans-serif"],
       },
     },
   },

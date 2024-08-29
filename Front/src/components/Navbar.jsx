@@ -4,7 +4,7 @@ export default function Navbar() {
   let cssClass =
     "text-[#0C5D69] p-2 text-md  hover:text-gray-400 transition duration-150 ";
   return (
-    <nav className="bg-[#fff]  p-6 mx-auto container font-Josefin w-full h-max">
+    <nav className="bg-[#fff]  px-6 py-4 mx-auto container font-Josefin w-full h-max">
       <div className="   flex items-center justify-between  ">
         <div>
           <p className=" text-xl lg:text-3xl font-bungee-tint text-[#0C5D69]  font-bold">
