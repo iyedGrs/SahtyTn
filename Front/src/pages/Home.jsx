@@ -1,5 +1,4 @@
 import "../index.css";
-
 const Home = () => {
   return (
     <div className="container-image  py-32 lg:pt-40 lg:pb-50 md:py-48">

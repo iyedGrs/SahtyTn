@@ -25,20 +25,12 @@ export const inputFields = [
 
 export const RegisterFields = [
   {
-    id: "cin",
-    name: "cin",
+    id: "id_doctor",
+    name: "id_doctor",
     type: "number",
-    autoComplete: "cin",
-    placeholder: "enter cin",
-    label: "cin",
-  },
-  {
-    id: "id_docteur",
-    name: "id_docteur",
-    type: "number",
-    autoComplete: "id_docteur",
-    placeholder: "enter id_docteur",
-    label: "id_docteur",
+    autoComplete: "id_doctor",
+    placeholder: "enter id_doctor",
+    label: "id_doctor",
   },
   {
     id: "username",
@@ -49,10 +41,10 @@ export const RegisterFields = [
     label: "username",
   },
   {
-    id: "Date",
-    name: "Date",
+    id: "date",
+    name: "date",
     type: "Date",
-    autoComplete: "Date",
+    autoComplete: "date",
     placeholder: "Date",
     label: "Date",
   },
