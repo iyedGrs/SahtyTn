@@ -1,23 +1,27 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/user/authActions";
 import { inputFields } from "../data/NavBarUser";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.auth);
+
+  const navigate = useNavigate();
+  const { userInfo, error } = useSelector((state) => state.auth);
   const { register, handleSubmit } = useForm();
   const handleLogin = (data) => {
     // e.preventDefault(); // Prevent default form submission
-    // const email = "john.doe@example.com";
-    // const password = "password123";
-    // dispatch(loginUser({ email, password }));
-    console.log(data);
+    dispatch(loginUser(data)).unwrap();
   };
-
+  useEffect(() => {
+    if (userInfo) {
+      console.log("user info", userInfo);
+      // navigate("/dashboard");
+    }
+  }, [userInfo]);
   return (
     <div className="w-full md:h-full font-Josefin flex mx-auto container items-center justify-center  overflow-hidden">
       <div className="w-full h-full mb-10  bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] md:flex">

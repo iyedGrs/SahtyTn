@@ -1,12 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginUser } from "./authActions";
+import { loginUser, registerUser } from "./authActions";
 
 const initialState = {
   userInfo: null,
+  userToken: null,
   isLoading: false,
   error: null,
   success: null,
-  userToken: null,
   isAuth: false,
 };
 const userSlice = createSlice({
@@ -14,7 +14,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logoutUser: (state) => {
-      state.loading = false;
+      state.isLoading = false;
       state.userInfo = null;
       state.userToken = null;
     },
@@ -35,14 +35,34 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.userInfo = action.payload;
+        state.userInfo = action.payload.user;
         state.userToken = action.payload.token;
         state.isAuth = true;
+        state.success = true;
+        //local storage if we want to
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload;
+        state.success = false;
+      })
+      .addCase(registerUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
         state.success = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userInfo = action.payload.user;
+        state.userToken = action.payload.token;
+        state.isAuth = true;
+        state.success = true;
+        //local storage if we want to
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+        state.success = false;
       });
   },
 });

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-const UserLayout = () => {
+const PublicLayout = () => {
   return (
     <div className="w-full h-full  flex flex-col gap-4  ">
       <Navbar />
@@ -12,4 +12,4 @@ const UserLayout = () => {
   );
 };
 
-export default UserLayout;
+export default PublicLayout;

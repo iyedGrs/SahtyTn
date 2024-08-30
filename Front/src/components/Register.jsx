@@ -1,20 +1,22 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../features/user/authActions";
+import { registerUser } from "../features/user/authActions";
 import { RegisterFields } from "../data/NavBarUser";
 import { useForm } from "react-hook-form";
 
 const Register = () => {
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.auth);
-  const { register, handleSubmit } = useForm();
-  const handleLogin = (data) => {
-    // e.preventDefault(); // Prevent default form submission
-    // const email = "john.doe@example.com";
-    // const password = "password123";
-    // dispatch(loginUser({ email, password }));
-    console.log(data);
+  const { userInfo, loading, error } = useSelector((state) => state.auth);
+  const { register, handleSubmit, setValue, reset } = useForm();
+  const handleRegister = async (data) => {
+    const { Confirmpassword, ...filteredDAta } = data;
+    try {
+      const resultAction = await dispatch(registerUser(filteredDAta)).unwrap();
+      reset();
+    } catch (error) {
+      alert("Register Failed" + error);
+    }
   };
   const [selectedOption, setSelectedOption] = useState({
     value: "",
@@ -22,8 +24,10 @@ const Register = () => {
   });
   const handleSelectChange = (e) => {
     const { value } = e.target;
-    setSelectedOption({ value, index: value === "docteur" ? 1 : 0 });
+    setSelectedOption({ value, index: value === "docteur" ? 0 : null });
+    setValue("role", value);
   };
+
   return (
     <div className="w-full md:h-full font-Josefin flex mx-auto container items-center justify-center  overflow-hidden">
       <div className="w-full h-full mb-10  bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] md:flex">
@@ -40,7 +44,7 @@ const Register = () => {
             </h2>
           </div>
           <form
-            onSubmit={handleSubmit(handleLogin)}
+            onSubmit={handleSubmit(handleRegister)}
             className="space-y-6 flex items-center justify-center flex-col"
           >
             <div className="space-y-4">
@@ -57,7 +61,7 @@ const Register = () => {
                 <option value="docteur">docteur</option>
                 <option value="patient">patient</option>
               </select>
-              {selectedOption.value && (
+              {selectedOption.index != null && (
                 <div key={RegisterFields[selectedOption.index].id} className="">
                   <label
                     htmlFor={RegisterFields[selectedOption.index].id}
@@ -81,7 +85,7 @@ const Register = () => {
                   />
                 </div>
               )}
-              {RegisterFields.slice(2).map((field) => (
+              {RegisterFields.slice(1).map((field) => (
                 <div key={field.id} className="">
                   <label htmlFor={field.id} className="sr-only">
                     {field.label}
@@ -129,7 +133,7 @@ const Register = () => {
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#0C5D69] hover:bg-[#0a4d5b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Sign in
+                Register
               </button>
             </div>
           </form>
