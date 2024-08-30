@@ -16,12 +16,14 @@ export default function Navbar() {
             <NavLink
               key={index}
               to={link.to}
-              className={
+              className={({ isActive }) =>
                 link.isRendezVous
                   ? `${
                       cssClass +
                       "bg-[#0C5D69] text-white rounded hidden md:block "
                     }`
+                  : isActive
+                  ? cssClass + "text-gray-400"
                   : cssClass
               }
             >
