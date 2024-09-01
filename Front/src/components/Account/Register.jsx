@@ -1,11 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../features/user/authActions";
-import { RegisterFields } from "../data/NavBarUser";
+import { registerUser } from "../../features/user/authActions";
+import { RegisterFields } from "../../data/NavBarUser";
 import { useForm } from "react-hook-form";
 
 const Register = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userInfo, loading, error } = useSelector((state) => state.auth);
   const { register, handleSubmit, setValue, reset } = useForm();
@@ -14,6 +16,7 @@ const Register = () => {
     try {
       const resultAction = await dispatch(registerUser(filteredDAta)).unwrap();
       reset();
+      navigate("/login");
     } catch (error) {
       alert("Register Failed" + error);
     }
@@ -29,10 +32,10 @@ const Register = () => {
   };
 
   return (
-    <div className="w-full md:h-full font-Josefin flex mx-auto container items-center justify-center  overflow-hidden">
-      <div className="w-full h-full mb-10  bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] md:flex">
+    <div className="   w-full max-w-[1200px] m-auto mt-10 md:h-full font-Josefin flex items-center justify-center overflow-hidden  ">
+      <div className="w-full border-2   h-full mb-10 bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] flex  justify-center ">
         {/* Left Side: Form */}
-        <div className="md:w-3/5 p-6 md:p-12 flex flex-col justify-center ">
+        <div className=" border-4 w-full  md:w-1/3 p-6 md:p-12 flex flex-col justify-center ">
           <div className="mb-8 ">
             <img
               src="/logo.png"
@@ -45,7 +48,7 @@ const Register = () => {
           </div>
           <form
             onSubmit={handleSubmit(handleRegister)}
-            className="space-y-6 flex items-center justify-center flex-col"
+            className="space-y-6 flex   justify-center flex-col"
           >
             <div className="space-y-4">
               <select
@@ -130,6 +133,7 @@ const Register = () => {
             </div>
             <div>
               <button
+                disabled={loading}
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#0C5D69] hover:bg-[#0a4d5b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
@@ -140,7 +144,7 @@ const Register = () => {
         </div>
         {/* Right Side: Image */}
         <div
-          className="hidden md:block md:w-2/5 bg-cover bg-center"
+          className="hidden md:block md:w-2/3 md:p-12 pl-5 pt-2 pr-3 pb-2 bg-cover bg-center"
           style={{
             backgroundImage: `url('https://hbr.org/resources/images/article_assets/2019/10/Oct19_22_1032609198.jpg')`,
           }}

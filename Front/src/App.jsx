@@ -1,10 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import PublicLayout from "./RootLayout/page";
-import Login from "./components/Login";
+import PublicLayout from "./RootLayout/PublicLayout";
+import Login from "./components/Account/Login";
 import About from "./components/About";
 import Contact from "./components/Contact";
-import Register from "./components/Register";
+import Register from "./components/Account/Register";
 import RootLayout from "./PatientDocLayout/page";
 import Home from "./pages/Home";
 import { useSelector } from "react-redux";
@@ -13,17 +13,16 @@ function App() {
   console.log("is auth : ", isAuth);
   return (
     <Routes>
-      {!isAuth ? (
-        <Route path="/" element={<PublicLayout />}>
-          <Route index element={<Login />}></Route>
-          <Route path="register" element={<Register />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="about" element={<About />} />
-          <Route path="home" element={<Home />} />
-        </Route>
-      ) : (
-        <Route path="/dashboard" element={<RootLayout />}></Route>
-      )}
+      <Route exact path="/" element={<PublicLayout />}>
+        <Route index element={<Navigate to="/home" />} />
+        <Route index path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+      </Route>
+      <Route path="/dashboard" element={<RootLayout />}></Route>
+
       <Route path="*" element={<Navigate to={isAuth ? "/dashboard" : "/"} />} />
     </Routes>
   );

@@ -6,7 +6,8 @@ const User = require("../Models/User");
 const Contact = require("../Models/Contact");
 // const contactController = require("../controllers/contactController");
 
-router.post("/", authenticateUser, async (req, res) => {
+router.post("/", async (req, res) => {
+  //ignored the middleware for now
   const { email, subject, message } = req.body;
   const userId = req.userId;
   try {

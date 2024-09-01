@@ -1,33 +1,58 @@
+import ContainerMmaxWidth from "../components/Container-max-width";
 import "../index.css";
+import { content } from "../data/contentHome";
+import { useEffect, useState } from "react";
+import SlideContent from "../components/SlideContent";
 const Home = () => {
+  const [sliderState, setSliderState] = useState({
+    currentIndex: 0,
+    isAnimating: false,
+  });
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSliderState((prevState) => ({
+        ...prevState,
+        isAnimating: true,
+      }));
+
+      setTimeout(() => {
+        setSliderState((prevState) => ({
+          currentIndex:
+            prevState.currentIndex === content.length - 1
+              ? 0
+              : prevState.currentIndex + 1,
+          isAnimating: false,
+        }));
+      }, 700); // Animation duration
+    }, 6000); // Timer interval
+
+    return () => clearInterval(interval);
+  }, []);
+  const currentContent = content[sliderState.currentIndex];
   return (
-    <div className="container-image  py-32 lg:pt-40 lg:pb-50 md:py-48">
-      <div className="pl-20 flex flex-col gap-7">
-        <div>
-          <p className="text-2xl text-blue-600 mb-20">Commited To success</p>
-          <p className="uppercase font-bold text-5xl mb-10 ">
-            We care about{" "}
-            <span className="block mt-2">
-              {" "}
-              your <span className="text-blue-700">HealthCare </span>
-            </span>
+    <>
+      <ContainerMmaxWidth as="main">
+        <div className="container-image font-Nunito text-white font-bold  ">
+          <div
+            className={` flex flex-col gap-7 transition-opacity duration-500 ${
+              sliderState.isAnimating ? "opacity-0" : "opacity-100"
+            }`}
+          >
+            <SlideContent
+              title={currentContent.title}
+              subtitle={currentContent.subtitle}
+              text={currentContent.text}
+              spansub={currentContent.spansubtitle}
+            />
+          </div>
+          <p className="   pt-10">
+            <button className="text-lg transition-all duration-500 py-4 px-14 rounded-md bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white ">
+              Appointment
+            </button>
           </p>
         </div>
-        <div className="flex flex-col gap-20 items-start">
-          <p className="w-3/5 text-xl">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime
-            sunt maiores dolores, error eius ea, officia, earum accusantium
-            ducimus omnis itaque reiciendis minima vel veniam odio iusto
-            quibusdam quae aspernatur illo ipsum adipisci labore assumenda
-            tempora vero? Fugit, earum odio. Fugiat optio aut dicta nulla sed
-            quas consequuntur. Accusantium, reprehenderit!
-          </p>
-          <button className="text-lg transition-all duration-500 py-4 px-14 rounded-md bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white ">
-            Appointment
-          </button>
-        </div>
-      </div>
-    </div>
+      </ContainerMmaxWidth>
+    </>
   );
 };
 

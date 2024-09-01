@@ -1,22 +1,22 @@
 const About = () => {
   return (
-    <section className="overflow-hidden   font-Josefin pt-20 pb-12 lg:pt-[40px] lg:pb-[90px] bg-white dark:bg-dark">
+    <section className="overflow-hidden  font-Josefin pt-20   lg:pt-[40px] lg:pb-[90px] bg-white dark:bg-dark">
       <div className="container mx-auto">
         <p className="text-center text-5xl  ">About Us </p>
         <div className="flex flex-wrap items-center justify-between -mx-4">
           <div className="w-full px-4 lg:w-6/12">
             <div className="flex items-center -mx-3 sm:-mx-4">
               <div className="w-full px-3 sm:px-4 xl:w-1/2">
-                <div className="py-3 sm:py-4">
+                <div className="py-3 sm:py-4 h-[650px] ">
                   <img
-                    src="https://cdn.tailgrids.com/2.0/image/marketing/images/about/about-01/image-1.jpg"
+                    src="https://e0.pxfuel.com/wallpapers/578/919/desktop-wallpaper-doctor-female-doctor-thumbnail.jpg"
                     alt=""
-                    className="w-full rounded-2xl"
+                    className="w-full h-full  rounded-2xl"
                   />
                 </div>
-                <div className="py-3 sm:py-4">
+                <div className="py-3 sm:py-4 ">
                   <img
-                    src="https://cdn.tailgrids.com/2.0/image/marketing/images/about/about-01/image-2.jpg"
+                    src="https://e0.pxfuel.com/wallpapers/296/741/desktop-wallpaper-doctor-surgery-man.jpg"
                     alt=""
                     className="w-full rounded-2xl"
                   />
@@ -25,7 +25,7 @@ const About = () => {
               <div className="w-full px-3 sm:px-4 xl:w-1/2">
                 <div className="relative z-10 my-4">
                   <img
-                    src="https://cdn.tailgrids.com/2.0/image/marketing/images/about/about-01/image-3.jpg"
+                    src="https://w0.peakpx.com/wallpaper/379/743/HD-wallpaper-doctor-wearing-a-mask.jpg"
                     alt=""
                     className="w-full rounded-2xl"
                   />
@@ -603,29 +603,31 @@ const About = () => {
               </div>
             </div>
           </div>
-          <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
+          <div className="w-full px-4 lg:w-1/2 xl:w-5/12 ">
             <div className="mt-10 lg:mt-0">
               <span className="block mb-4 text-lg font-semibold text-primary">
                 Why Choose Us
               </span>
-              <h2 className="mb-5 text-3xl font-bold   dark:text-black sm:text-[40px]/[48px]">
-                Make your customers happy by giving services.
+              <h2 className="mb-5 text-3xl font-bold dark:text-black sm:text-[40px]/[48px]">
+                Trust in Our Expertise for Your Health
               </h2>
               <p className="mb-5 text-base text-body-color dark:text-dark-6">
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-                The point of using Lorem Ipsum is that it has a more-or-less.
+                Our healthcare services are built on a foundation of excellence
+                and compassion. We combine cutting-edge technology with
+                personalized care to ensure that each patient receives the best
+                possible treatment.
               </p>
               <p className="mb-8 text-base text-body-color dark:text-dark-6">
-                A domain name is one of the first steps to establishing your
-                brand. Secure a consistent brand image with a domain name that
-                matches your business.
+                From preventive care to advanced diagnostics and treatment, our
+                team of dedicated professionals is here to support your health
+                journey every step of the way. Your well-being is our top
+                priority.
               </p>
               <a
-                href="javascript:void(0)"
+                href="#services"
                 className="inline-flex items-center justify-center py-3 text-base font-medium text-center text-white border border-transparent rounded-md px-7 bg-primary hover:bg-opacity-90"
               >
-                Get Started
+                Explore Our Services
               </a>
             </div>
           </div>
