@@ -2,7 +2,7 @@ export const links = [
   { to: "/home", text: "Home" },
   { to: "/about", text: "About" },
   { to: "/contact", text: "Contact" },
-  { to: "/", text: "Rendez-Vous", isRendezVous: true },
+  { to: "/register", text: "Rendez-Vous", isRendezVous: true },
 ];
 export const inputFields = [
   {

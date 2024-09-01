@@ -4,7 +4,6 @@ const User = require("../Models/User");
 const authenticateUser = async (req, res, next) => {
   console.log("middleware called ");
   const token = req.header("Authorization")?.replace("Bearer ", "");
-  console.log("token is ", token);
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
   }

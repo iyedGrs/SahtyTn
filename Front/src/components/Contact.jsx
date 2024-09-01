@@ -3,84 +3,76 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import axios from "axios";
 
 const Contact = () => {
-  const { register, handleSubmit } = useForm();
-  const handleContactForm = (data) => console.log(data);
-  // const onSubmit = async (event) => {
-  //   event.preventDefault();
-  //   setLoading(true);
+  const { setValue, register, handleSubmit, reset } = useForm();
+  const [loading, setLoading] = useState(false);
 
-  //   const formDataObj = {
-  //     access_key: "52f8b65a-bde1-41ea-911e-0f4164c64132",
-  //     name: formData.name,
-  //     email: formData.email,
-  //     subject: formData.subject,
-  //     message: formData.message,
-  //   };
+  const handleContactForm = async (data, event) => {
+    event.preventDefault();
+    const access_key = "52f8b65a-bde1-41ea-911e-0f4164c64132";
+    setValue("access_key", access_key);
+    setLoading(true);
 
-  //   try {
-  //     const response = await axios.post(
-  //       "https://api.web3forms.com/submit",
-  //       formDataObj,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
+    try {
+      const response = await axios.post(
+        "https://api.web3forms.com/submit",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  //     if (response.data.success) {
-  //       toast.success("Message sent successfully!", {
-  //         position: "bottom-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         toastClassName: "custom-toast",
-  //         bodyClassName: "custom-toast-body",
-  //       });
-  //       setFormData({
-  //         name: "",
-  //         email: "",
-  //         subject: "",
-  //         message: "",
-  //       });
-  //     } else {
-  //       toast.error("Failed to send message. Please try again.", {
-  //         position: "bottom-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         toastClassName: "custom-toast",
-  //         bodyClassName: "custom-toast-body",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error("An error occurred. Please try again.", {
-  //       position: "bottom-right",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       toastClassName: "custom-toast",
-  //       bodyClassName: "custom-toast-body",
-  //     });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+      if (response.data.success) {
+        toast.success("Message sent successfully!", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          toastClassName: "custom-toast",
+          bodyClassName: "custom-toast-body",
+        });
+        reset();
+      } else {
+        toast.error("Failed to send message. Please try again.", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          toastClassName: "custom-toast",
+          bodyClassName: "custom-toast-body",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("An error occurred. Please try again.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        toastClassName: "custom-toast",
+        bodyClassName: "custom-toast-body",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="flex h-full items-center justify-center">
+    <div className="flex h-[100vh] w-full items-center justify-center">
       <div
         id="contact"
-        className="w-4/5 font-Josefin overflow-hidden  flex items-center flex-col justify-center gap-6 bg-gradient-to-b p-12 pt-6 "
+        className=" font-Josefin overflow-hidden  flex items-center flex-col justify-center gap-6 bg-gradient-to-b p-12 pt-6 "
       >
         <ToastContainer
           position="bottom-right"
@@ -98,7 +90,7 @@ const Contact = () => {
         <section className="w-full luckiest-guy-regular ">
           <div className="px-4 mx-auto max-w-screen-md">
             <p className="text-4xl md:text-6xl  text-center font-bold p-4 md:p-0 luckiest-guy-regular text-black ">
-              CONTACT US
+              GET IN TOUCH
             </p>
 
             <form

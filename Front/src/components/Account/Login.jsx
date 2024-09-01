@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../features/user/authActions";
-import { inputFields } from "../data/NavBarUser";
+import { loginUser } from "../../features/user/authActions";
+import { inputFields } from "../../data/NavBarUser";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -12,9 +12,13 @@ const Login = () => {
   const navigate = useNavigate();
   const { userInfo, error } = useSelector((state) => state.auth);
   const { register, handleSubmit } = useForm();
-  const handleLogin = (data) => {
-    // e.preventDefault(); // Prevent default form submission
-    dispatch(loginUser(data)).unwrap();
+  const handleLogin = async (data) => {
+    try {
+      const resultAction = await dispatch(loginUser(data)).unwrap();
+      navigate("/dashboard");
+    } catch (err) {
+      alert("login Failed" + err);
+    }
   };
   useEffect(() => {
     if (userInfo) {
@@ -23,8 +27,8 @@ const Login = () => {
     }
   }, [userInfo]);
   return (
-    <div className="w-full md:h-full font-Josefin flex mx-auto container items-center justify-center  overflow-hidden">
-      <div className="w-full h-full mb-10  bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] md:flex">
+    <div className="h-[100vh]   w-full max-w-[1200px] m-auto  md:h-full font-Josefin flex items-center justify-center overflow-hidden  ">
+      <div className="w-full border-2   h-full mb-10 bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] flex  justify-center ">
         {/* Left Side: Form */}
         <div className="md:w-3/5 p-6 md:p-12 flex flex-col justify-center ">
           <div className="mb-8 ">
@@ -109,7 +113,7 @@ const Login = () => {
         </div>
         {/* Right Side: Image */}
         <div
-          className="hidden md:block md:w-2/5 bg-cover bg-center"
+          className="hidden md:block md:w-2/3 md:p-12 pl-5 pt-2 pr-3 pb-2 bg-cover bg-center"
           style={{
             backgroundImage: `url('https://hbr.org/resources/images/article_assets/2019/10/Oct19_22_1032609198.jpg')`,
           }}
