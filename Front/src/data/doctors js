@@ -1,0 +1,19 @@
+export const doctors = [
+  {
+    name: "Elina Josh",
+    title: "Doctor",
+    image:
+      "https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-afro-professional-doctor-png-image_10148632.png",
+  },
+  {
+    name: "Adam View",
+    title: "Doctor",
+    image: "https://pngimg.com/d/doctor_PNG15959.png",
+  },
+  {
+    name: "Mia Mike",
+    title: "Doctor",
+    image:
+      "https://purepng.com/public/uploads/thumbnail/purepng.com-doctorsdoctorsdoctors-and-nursesa-qualified-practitioner-of-medicine-aclinicianmedical-practitionermale-doctornotepad-1421526856962nfokf.png",
+  },
+];

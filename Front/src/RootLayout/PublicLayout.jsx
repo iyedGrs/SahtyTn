@@ -12,7 +12,7 @@ const PublicLayout = () => {
         {isHomePage ? <div className="bgImage"></div> : null}
         <Navbar />
         <div
-          className="border-2 border-red-500 px-20 
+          className="px-20 
         "
         >
           <Outlet />

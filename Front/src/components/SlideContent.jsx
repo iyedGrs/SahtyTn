@@ -5,13 +5,13 @@ import { memo } from "react";
 const SlideContent = memo(({ title, subtitle, text, spansub }) => {
   return (
     <div>
-      <div>
-        <p className="text-2xl text-blue-600 mb-20">{title}</p>
-        <p className="uppercase font-bold text-5xl mb-10 ">
+      <div className="font-Nunito">
+        <p className="text-5xl text-[#0D3B66] mb-10">{title}</p>
+        <p className="uppercase font-bold text-4xl mb-10 ">
           {subtitle}
           <span className="block mt-2">
             {" "}
-            your <span className="text-blue-700">{spansub} </span>
+            your <span className="text-[#fff]">{spansub} </span>
           </span>
         </p>
       </div>
