@@ -24,6 +24,16 @@ const Departments = () => {
   return (
     <ContainerMmaxWidth as="section">
       <div className="flex flex-col gap-10 font-Nunito">
+        <div className="text-center">
+          <h1 className="text-center pb-2 font-semibold text-2xl md:text-3xl lg:text-5xl uppercase">
+            Our Departments{" "}
+          </h1>
+          <span className="text-center px-10 lg:px-0 md:px-0">
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dicta
+            pariatur sequi eius. Eius numquam architecto adipisci, impedit
+            deserunt asperiores maxime!
+          </span>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-4">
           {departments.map((department, index) => (
             <div
@@ -43,7 +53,7 @@ const Departments = () => {
                 {department.description.length > maxDescriptionLength && (
                   <button
                     onClick={() => toggleExpand(index)}
-                    className=" underline  text-blue-800"
+                    className=" underline z-10  text-blue-800"
                   >
                     {expanded[index] ? "Less" : "More"}
                   </button>

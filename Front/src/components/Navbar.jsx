@@ -3,14 +3,14 @@ import { links } from "../data/NavBarUser";
 export default function Navbar() {
   const location = useLocation();
   const currentPath = location.pathname;
-  let cssClass = "text-[#fff]  text-lg transition duration-150 ";
+  let cssClass = "text-[#fff]  text-lg transition duration-150 p-2 ";
 
   // "text-[#0C5D69] p-2 text-lg  hover:text-gray-400 transition duration-150 ";
 
   return (
     <nav
       className={`${
-        currentPath === "/home" ? "" : "bg-[#178066]"
+        currentPath === "/home" ? "" : "bg-[#39AD96]"
       } px-6 py-6  font-Josefin w-full h-max `}
     >
       <div className="  mx-auto container flex items-center justify-between  ">
@@ -28,10 +28,10 @@ export default function Navbar() {
                 link.isRendezVous
                   ? `${
                       cssClass +
-                      "bg-[#0C5D69] text-white rounded hidden md:block p-2 "
+                      "bg-[#0C5D69] text-white rounded hidden md:block  "
                     }`
                   : isActive
-                  ? cssClass + "p-2"
+                  ? cssClass + "underline decoration-1 underline-offset-4 "
                   : cssClass
               }
             >

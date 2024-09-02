@@ -4,10 +4,10 @@ const About = () => {
       <div className="container mx-auto">
         <p className="text-center text-5xl  ">About Us </p>
         <div className="flex flex-wrap items-center justify-between -mx-4">
-          <div className="w-full px-4 lg:w-6/12">
+          <div className="w-full px-4  lg:block lg:w-6/12 md:block md:w-1/2  ">
             <div className="flex items-center -mx-3 sm:-mx-4">
               <div className="w-full px-3 sm:px-4 xl:w-1/2">
-                <div className="py-3 sm:py-4 h-[650px] ">
+                <div className="py-3 sm:py-4   ">
                   <img
                     src="https://e0.pxfuel.com/wallpapers/578/919/desktop-wallpaper-doctor-female-doctor-thumbnail.jpg"
                     alt=""
@@ -603,7 +603,7 @@ const About = () => {
               </div>
             </div>
           </div>
-          <div className="w-full px-4 lg:w-1/2 xl:w-5/12 ">
+          <div className="w-full px-4 lg:w-1/2 xl:w-5/12 md:w-1/2 ">
             <div className="mt-10 lg:mt-0">
               <span className="block mb-4 text-lg font-semibold text-primary">
                 Why Choose Us

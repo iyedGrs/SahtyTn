@@ -7,13 +7,14 @@ const RootLayout = () => {
   console.log("welcome here this is the data from the store", data);
   return (
     <div>
-      <h1>Navbar profile</h1>
+      {/* <h1 className="text-white">Navbar profile</h1> */}
       <div className="flex">
         <SideBar />
         <main>
           <Outlet />
         </main>
       </div>
+      <footer>aaa</footer>
     </div>
   );
 };
