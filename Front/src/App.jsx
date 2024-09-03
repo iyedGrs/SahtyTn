@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 function App() {
   const { isAuth } = useSelector((state) => state.auth);
   console.log("is auth : ", isAuth);
+  const basePath = "patient";
   return (
     <Routes>
       <Route exact path="/" element={<PublicLayout />}>
@@ -21,7 +22,10 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
       </Route>
-      <Route path="/dashboard" element={<RootLayout />}></Route>
+      <Route path={`/${basePath}`} element={<RootLayout />}>
+        {/* <Route index element={<Navigate to={`/dashboard/${basePath}`} />} /> */}
+        {/* <Route path={`${basePath}/*`} element={<Dashboard />} /> */}
+      </Route>
 
       <Route path="*" element={<Navigate to={isAuth ? "/dashboard" : "/"} />} />
     </Routes>

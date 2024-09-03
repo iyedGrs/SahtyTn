@@ -15,7 +15,7 @@ const Login = () => {
   const handleLogin = async (data) => {
     try {
       const resultAction = await dispatch(loginUser(data)).unwrap();
-      navigate("/dashboard");
+      navigate(`/${resultAction.user.role}`);
     } catch (err) {
       alert("login Failed" + err);
     }
