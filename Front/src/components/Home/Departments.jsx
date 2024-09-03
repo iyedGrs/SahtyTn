@@ -25,7 +25,7 @@ const Departments = () => {
     <ContainerMmaxWidth as="section">
       <div className="flex flex-col gap-10 font-Nunito">
         <div className="text-center">
-          <h1 className="text-center pb-2 font-semibold text-2xl md:text-3xl lg:text-5xl uppercase">
+          <h1 className="text-center pb-4 font-semibold text-2xl md:text-3xl lg:text-5xl uppercase">
             Our Departments{" "}
           </h1>
           <span className="text-center px-10 lg:px-0 md:px-0">
