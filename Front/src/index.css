@@ -51,3 +51,7 @@ body {
   text-align-last: center;
   hyphens: auto;
 }
+
+.bg-custom-gradient {
+  background: linear-gradient(to bottom, #66baab 40%, rgb(241, 240, 240) 20%);
+}

@@ -1,24 +1,47 @@
 import { Outlet } from "react-router-dom";
 import { SideBar } from "../components/SideBar";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import NavBarPatientDoc from "../components/NavBarPatientDoc";
 
 const RootLayout = () => {
-  const data = useSelector((state) => state.auth);
-  console.log("Welcome here, this is the data from the store:", data);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    // Ensure the sidebar fits to the left on medium and large screens
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setSidebarOpen(false); // Close the sidebar on medium and larger screens
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <div className="grid grid-rows-[1fr] min-h-screen">
-      {/* Sidebar and Main content */}
-      <div className="grid grid-cols-12 flex-grow">
-        <aside className="col-span-2 bg-gray-50 dark:bg-gray-800">
+    <div className="bg-custom-gradient font-Josefin h-full">
+      <div className="relative px-6 h-full flex gap-4">
+        {/* Sidebar with Transition and Fixed Width */}
+        <aside
+          className={`fixed overflow-y-hidden inset-y-0 left-0 z-30 rounded-xl transform transition-transform duration-300 ease-in-out
+          ${sidebarOpen ? "translate-x-3 my-3" : "-translate-x-full my-3"} 
+          w-64 md:w-64 bg-white shadow-lg md:static md:translate-x-0`}
+        >
           <SideBar />
         </aside>
-        <main className="col-span-10 p-4">
+
+        {/* Main Content */}
+        <main className="flex-1 my-3  w-full border-2 border-red-600 ">
+          <NavBarPatientDoc
+            setSideBarOpen={setSidebarOpen}
+            sideBarOpen={sidebarOpen}
+          />
           <Outlet />
-          <h1>ena main</h1>
         </main>
       </div>
-      {/* Footer */}
     </div>
   );
 };
