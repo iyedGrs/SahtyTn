@@ -9,6 +9,10 @@ export default {
         Matemasie: ["Matemasie", "sans-serif"],
         Nunito: ["Nunito", "sans-serif"],
       },
+      colors: {
+        blueMain: "#6cb9dd",
+        greenMain: "#66baab",
+      },
     },
   },
   plugins: [],

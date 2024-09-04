@@ -15,47 +15,47 @@ export const sidebarItems = {
   client: [
     {
       title: "Dashboard",
-      path: "/client/dashboard",
+      path: "/patient",
       icon: <DashboardIcon />,
     },
     {
       title: "Appointments",
-      path: "/client/appointments",
+      path: "/patient/appointments",
       icon: <EventIcon />,
     },
     {
       title: "Consultations",
-      path: "/client/consultations",
+      path: "/patient/consultations",
       icon: <LocalHospitalIcon />,
     },
     {
       title: "Prescriptions",
-      path: "/client/prescriptions",
+      path: "/patient/prescriptions",
       icon: <ReceiptIcon />,
     },
     {
       title: "Medical Records",
-      path: "/client/medical-records",
+      path: "/patient/medical-records",
       icon: <FolderSharedIcon />,
     },
     {
       title: "Payments",
-      path: "/client/payments",
+      path: "/patient/payments",
       icon: <PaymentsIcon />,
     },
     {
       title: "Messages",
-      path: "/client/messages",
+      path: "/patient/messages",
       icon: <MessageIcon />,
     },
     {
       title: "Settings",
-      path: "/client/settings",
+      path: "/patient/settings",
       icon: <SettingsIcon />,
     },
     {
       title: "Support",
-      path: "/client/support",
+      path: "/patient/support",
       icon: <SupportAgentIcon />,
     },
   ],
