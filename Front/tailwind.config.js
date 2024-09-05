@@ -13,6 +13,9 @@ export default {
         blueMain: "#6cb9dd",
         greenMain: "#66baab",
       },
+      gridTemplateColumns: {
+        "auto-fit": "repeat(auto-fit, minmax(250px, 1fr))",
+      },
     },
   },
   plugins: [],
