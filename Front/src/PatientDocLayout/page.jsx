@@ -26,7 +26,7 @@ const RootLayout = () => {
       <div className="relative px-6 h-full flex gap-4">
         {/* Sidebar with Transition and Fixed Width */}
         <aside
-          className={`fixed overflow-y-hidden inset-y-0 left-0 z-30 rounded-xl transform transition-transform duration-300 ease-in-out
+          className={`fixed overflow-y-hidden    inset-y-0 left-0 z-30 rounded-xl transform transition-transform duration-300 ease-in-out
           ${sidebarOpen ? "translate-x-3 my-3" : "-translate-x-full my-3"} 
           w-64 md:w-64 bg-white shadow-lg md:static md:translate-x-0`}
         >
@@ -34,7 +34,7 @@ const RootLayout = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 my-3  w-full border-2 border-red-600 ">
+        <main className="flex-1 my-3  w-full ">
           <NavBarPatientDoc
             setSideBarOpen={setSidebarOpen}
             sideBarOpen={sidebarOpen}
