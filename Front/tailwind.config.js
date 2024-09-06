@@ -14,9 +14,24 @@ export default {
         greenMain: "#66baab",
       },
       gridTemplateColumns: {
-        "auto-fit": "repeat(auto-fit, minmax(250px, 1fr))",
+        "auto-fit": "repeat(auto-fit, minmax(450px, 1fr))",
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities(
+        {
+          ".scrollbar-hide": {
+            "scrollbar-width": "none",
+            "-ms-overflow-style": "none",
+          },
+          ".scrollbar-hide::-webkit-scrollbar": {
+            display: "none",
+          },
+        },
+        ["responsive", "hover"]
+      );
+    },
+  ],
 };

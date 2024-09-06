@@ -62,7 +62,7 @@ export const sidebarItems = {
   doctor: [
     {
       title: "Dashboard",
-      path: "/doctor/dashboard",
+      path: "/doctor",
       icon: <DashboardIcon />,
     },
     {

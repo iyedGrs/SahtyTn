@@ -1,7 +1,19 @@
+import { useSelector } from "react-redux";
 import sidebarItems from "../data/SibarData";
 import { NavLink } from "react-router-dom";
 
 export const SideBar = () => {
+  const auth = useSelector((state) => state.auth);
+  const role = auth.userInfo.role;
+  let items = [];
+  console.log("role is ", role);
+  console.log("side bar items", sidebarItems);
+  if (role === "docteur") {
+    items = sidebarItems.doctor;
+  } else if (role === "patient") {
+    items = sidebarItems.client;
+  }
+  console.log("itesm from sidebar", items);
   return (
     <div className="h-screen flex flex-col bg-white text-black">
       <div className="p-4">
@@ -10,7 +22,7 @@ export const SideBar = () => {
         </h1>
       </div>
       <ul className="flex flex-col gap-2 flex-grow">
-        {sidebarItems.client.map((item, index) => (
+        {items.map((item, index) => (
           <NavLink
             to={item.path}
             key={index}
