@@ -2,16 +2,13 @@
 import { useState } from "react";
 import Chart from "react-apexcharts";
 
-const PatientChart = () => {
+const BarChart = () => {
   const [options, setOptions] = useState({
     chart: {
-      type: "area",
+      type: "bar",
       toolbar: {
         show: false,
       },
-    },
-    stroke: {
-      curve: "smooth",
     },
     xaxis: {
       categories: [
@@ -29,13 +26,9 @@ const PatientChart = () => {
     dataLabels: {
       enabled: false,
     },
-    fill: {
-      type: "gradient",
-      gradient: {
-        shadeIntensity: 1,
-        opacityFrom: 0.7,
-        opacityTo: 0.2,
-        stops: [0, 90, 100],
+    plotOptions: {
+      bar: {
+        horizontal: false,
       },
     },
     tooltip: {
@@ -51,10 +44,10 @@ const PatientChart = () => {
   ]);
 
   return (
-    <div className="chart-container bg-white col-span-2 lg:col-span-1  rounded">
-      <Chart options={options} series={series} type="area" height={300} />
+    <div className="col-span-2 lg:col-span-1 bg-white rounded">
+      <Chart options={options} series={series} type="bar" height={300} />
     </div>
   );
 };
 
-export default PatientChart;
+export default BarChart;

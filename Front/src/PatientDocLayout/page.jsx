@@ -22,7 +22,13 @@ const RootLayout = () => {
   }, []);
 
   return (
-    <div className="bg-custom-gradient font-Josefin h-full">
+    <div
+      className="h-full"
+      style={{
+        background:
+          "linear-gradient(to bottom, #66baab 40%, rgb(241, 240, 240) 20%)",
+      }}
+    >
       <div className="relative px-6 h-full flex gap-4">
         {/* Sidebar with Transition and Fixed Width */}
         <aside
@@ -34,7 +40,7 @@ const RootLayout = () => {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 my-3  w-full ">
+        <main className="flex-1 my-3  w-full  overflow-y-scroll scrollbar-hide ">
           <NavBarPatientDoc
             setSideBarOpen={setSidebarOpen}
             sideBarOpen={sidebarOpen}

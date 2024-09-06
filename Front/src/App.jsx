@@ -14,9 +14,13 @@ import Appointment from "./pages/loggedUser/Appointment";
 import Prescriptionn from "./pages/loggedUser/Prescriptionn";
 import MedicalRecord from "./pages/loggedUser/MedicalRecord";
 function App() {
-  const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth, userInfo } = useSelector((state) => state.auth);
+  let basePath = "";
   console.log("is auth : ", isAuth);
-  const basePath = "patient";
+  console.log("user info : ", userInfo);
+  if (isAuth) {
+    basePath = userInfo.role;
+  }
   return (
     <Routes>
       <Route exact path="/" element={<PublicLayout />}>
