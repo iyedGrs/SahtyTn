@@ -3,14 +3,25 @@ import SearchIcon from "@mui/icons-material/Search";
 import Person2Icon from "@mui/icons-material/Person2";
 import SettingsIcon from "@mui/icons-material/Settings";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const NavBarPatientDoc = ({ setSideBarOpen, sideBarOpen }) => {
+  const location = useLocation();
+  const [path1, setPath] = useState("");
+
+  useEffect(() => {
+    const path = location.pathname.split("/").slice(-1)[0]; // Extracts 'appointments'
+    setPath(path);
+    console.log("/" + path); // Logs '/appointments'
+  }, [location]);
+
   return (
     <div className="w-full py-4 px-1  md:px-6  text-white       items-center justify-between">
       <div className=" flex items-center justify-between flex-col md:flex-row  gap-2 md:gap-4">
         <div className="sm:text-left   w-full">
           <p className="text-md md:te font-semibold w-full   ">
-            Pages / Dashboard
+            Pages /{" " + path1}{" "}
           </p>
         </div>
         <div className="right flex items-center      w-full justify-between md:justify-end lg:justify-end">
