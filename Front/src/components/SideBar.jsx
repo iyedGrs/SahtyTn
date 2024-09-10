@@ -15,7 +15,7 @@ export const SideBar = () => {
   }
   console.log("itesm from sidebar", items);
   return (
-    <div className="h-screen flex flex-col bg-white text-black">
+    <div className="h-screen flex flex-col bg-white text-black ">
       <div className="p-4">
         <h1 className="text-2xl font-normal text-center border-b text-greenMain font-Matemasie">
           SahtyTn
