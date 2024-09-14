@@ -16,6 +16,12 @@ export default {
       gridTemplateColumns: {
         "auto-fit": "repeat(auto-fit, minmax(450px, 1fr))",
       },
+      scale: {
+        110: "1.1",
+      },
+      transitionProperty: {
+        transform: "transform",
+      },
     },
   },
   plugins: [
