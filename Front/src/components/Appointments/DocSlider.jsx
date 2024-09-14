@@ -2,24 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { doctors } from "../data/doctors js";
-
-// Custom Arrow Components
-const Arrow = ({ className, style, onClick }) => (
-  <div
-    className={className}
-    style={{
-      ...style,
-      display: "block",
-      background: "black",
-      borderRadius: "50%",
-      width: "30px",
-      height: "30px",
-      zIndex: 1,
-    }}
-    onClick={onClick}
-  />
-);
+import { doctors } from "../../data/doctors js";
 
 const DocSlider = () => {
   const settings = {
@@ -28,8 +11,6 @@ const DocSlider = () => {
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
-    nextArrow: <Arrow />,
-    prevArrow: <Arrow />,
     responsive: [
       {
         breakpoint: 1024,
@@ -63,13 +44,13 @@ const DocSlider = () => {
       </h2>
       <Slider {...settings}>
         {doctors.map((item, index) => (
-          <div key={index} className="p-4">
+          <div key={index} className="p-4 ">
             <div
               onClick={() => handleClick(index)}
-              className={`h-80 flex flex-col bg-[#66BAAB] items-center justify-center p-6 rounded-lg shadow-lg transition-transform transform ease-in-out duration-300 cursor-pointer
+              className={`h-80  flex flex-col bg-[#66BAAB] items-center justify-center p-6 rounded-lg shadow-lg transition-transform transform ease-in-out duration-300 cursor-pointer
                 ${
                   selectedIndex === index
-                    ? "scale-110 border-2 border-white"
+                    ? "scale-110 border-2 border-white-[10px]"
                     : ""
                 }`}
             >

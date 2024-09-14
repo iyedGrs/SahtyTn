@@ -4,16 +4,39 @@ export const doctors = [
     title: "Doctor",
     image:
       "https://png.pngtree.com/png-vector/20230928/ourmid/pngtree-young-afro-professional-doctor-png-image_10148632.png",
+    tel: "50135233",
   },
   {
     name: "Adam View",
     title: "Doctor",
     image: "https://pngimg.com/d/doctor_PNG15959.png",
+    tel: "50135233",
   },
   {
     name: "Mia Mike",
     title: "Doctor",
     image:
       "https://purepng.com/public/uploads/thumbnail/purepng.com-doctorsdoctorsdoctors-and-nursesa-qualified-practitioner-of-medicine-aclinicianmedical-practitionermale-doctornotepad-1421526856962nfokf.png",
+    tel: "50135233",
+  },
+  {
+    name: "Grassi Iyed",
+    title: "Tbib 3youn",
+    image:
+      "https://purepng.com/public/uploads/thumbnail/purepng.com-doctorsdoctorsdoctors-and-nursesa-qualified-practitioner-of-medicine-aclinicianmedical-practitionermale-doctornotepad-1421526856962nfokf.png",
+    tel: "50135233",
+  },
+  // Additional doctor entries
+  {
+    name: "Sophia Lee",
+    title: "Pediatrician",
+    image: "https://example.com/path/to/sophia-lee-image.png",
+    tel: "50135234",
+  },
+  {
+    name: "Liam Chen",
+    title: "Orthopedic Surgeon",
+    image: "https://example.com/path/to/liam-chen-image.png",
+    tel: "50135235",
   },
 ];

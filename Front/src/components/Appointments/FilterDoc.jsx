@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import gouvernorats from "../data/gover";
+import gouvernorats from "../../data/gover";
 
 const FilterDoc = () => {
   const { register, handleSubmit, reset } = useForm();
