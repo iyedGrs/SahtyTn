@@ -1,16 +1,18 @@
-import React from "react";
+/* eslint-disable react/prop-types */
+import { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { doctors } from "../../data/doctors js";
 
-const DocSlider = () => {
+const DocSlider = ({ setIsSelectedDoc }) => {
   const settings = {
     dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
+
     responsive: [
       {
         breakpoint: 1024,
@@ -31,8 +33,10 @@ const DocSlider = () => {
     ],
   };
 
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  const [selectedIndex, setSelectedIndex] = useState(undefined);
+  if (selectedIndex !== undefined) {
+    setIsSelectedDoc(true);
+  }
   const handleClick = (index) => {
     setSelectedIndex(index);
   };
@@ -44,7 +48,7 @@ const DocSlider = () => {
       </h2>
       <Slider {...settings}>
         {doctors.map((item, index) => (
-          <div key={index} className="p-4 ">
+          <div key={index} className="p-4">
             <div
               onClick={() => handleClick(index)}
               className={`h-80  flex flex-col bg-[#66BAAB] items-center justify-center p-6 rounded-lg shadow-lg transition-transform transform ease-in-out duration-300 cursor-pointer

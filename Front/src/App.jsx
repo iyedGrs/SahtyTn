@@ -14,7 +14,18 @@ import Appointment from "./pages/loggedUser/Appointment";
 import Prescriptionn from "./pages/loggedUser/Prescriptionn";
 import MedicalRecord from "./pages/loggedUser/MedicalRecord";
 function App() {
-  const { isAuth, userInfo } = useSelector((state) => state.auth);
+  // const { isAuth, userInfo } = useSelector((state) => state.auth);
+  const isAuth = true;
+  const userInfo = {
+    _id: "66d1bcea2b831c571bbe8d5d",
+    username: "ahmed@gmail.com",
+    email: "ahm1ed@gmail.com",
+    password: "$2b$10$w39T5d62LdQNSZjWmNdM4eSFJM6eAlU3serPTNiFoAYbt5HJF03V.",
+    date: "2024-08-14",
+    role: "patient",
+    id_doctor: null,
+    __v: 0,
+  };
   let basePath = "";
   console.log("is auth : ", isAuth);
   console.log("user info : ", userInfo);
