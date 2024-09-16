@@ -55,3 +55,33 @@ body {
 .bg-custom-gradient {
   background: linear-gradient(to bottom, #66baab 40%, rgb(241, 240, 240) 20%);
 }
+/* Style the left arrow */
+.slick-prev {
+  background-color: #4caf50 !important; /* Green background */
+  border-radius: 50%; /* Make it circular */
+  width: 40px;
+  height: 40px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the right arrow */
+.slick-next {
+  background-color: #4caf50 !important; /* Green background */
+  border-radius: 50%; /* Make it circular */
+  width: 40px;
+  height: 40px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Style the arrow symbols */
+.slick-prev:before,
+.slick-next:before {
+  color: white; /* Make arrow symbols white */
+  font-size: 20px; /* Increase arrow size */
+}

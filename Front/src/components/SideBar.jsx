@@ -3,8 +3,9 @@ import sidebarItems from "../data/SibarData";
 import { NavLink } from "react-router-dom";
 
 export const SideBar = () => {
-  const auth = useSelector((state) => state.auth);
-  const role = auth.userInfo.role;
+  // const auth = useSelector((state) => state.auth);
+  // const role = auth.userInfo.role;
+  const role = "patient";
   let items = [];
   console.log("role is ", role);
   console.log("side bar items", sidebarItems);
