@@ -1,9 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify"; // For notifications
 import StepProgressBar from "./StepProgressBar";
 import { useForm } from "react-hook-form"; // For form handling
-import { auth } from "../../firebaseConfig"; // Firebase authentication
-import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+
+import DataRendezVous from "./DataRendezVous";
+import TimeRendezVous from "./TimeRendezVous";
+import SuccessRendezVous from "./SuccessRendezVous";
+import UpperFormPart from "./UpperFormPart";
+import PhoneInput from "react-phone-input-2";
+import PhoneOtp from "./PhoneOtp";
 
 const FormAppointment = () => {
   const {
@@ -15,23 +20,7 @@ const FormAppointment = () => {
   } = useForm();
   const [step, setStep] = useState(1);
   const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
-  const [confirmationResult, setConfirmationResult] = useState(null);
   const [confirmedPhoneNumber, setConfirmedPhoneNumber] = useState(false);
-
-  // Initialize reCAPTCHA verifier when the component mounts
-  useEffect(() => {
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      "recaptcha-container",
-      {
-        size: "invisible",
-        callback: (response) => {
-          console.log("Recaptcha solved", response);
-        },
-      },
-      auth
-    );
-  }, []);
 
   const dates = [
     "Lun. 16 Sept.",
@@ -80,107 +69,45 @@ const FormAppointment = () => {
   const confirmPhoneNumber = async (phone) => {
     if (phone.length === 8) {
       setConfirmedPhoneNumber(true);
-
-      const phoneNumber = "+216" + phone; // Tunisia country code example, adjust as needed
-      const appVerifier = window.recaptchaVerifier;
-
-      try {
-        const result = await signInWithPhoneNumber(
-          auth,
-          phoneNumber,
-          appVerifier
-        );
-        setConfirmationResult(result);
-        setOtpSent(true);
-        toast.success("OTP sent via SMS");
-      } catch (error) {
-        toast.error("Failed to send OTP: " + error.message);
-      }
     }
   };
 
   const verifyOtp = async (data) => {
-    if (confirmationResult) {
-      try {
-        await confirmationResult.confirm(data.otp);
-        setOtpVerified(true);
-        toast.success("OTP verified successfully!");
-      } catch (error) {
-        toast.error("Invalid OTP: " + error.message);
-      }
-    }
+    // if (confirmationResult) {
+    //   try {
+    //     await confirmationResult.confirm(data.otp);
+    //     setOtpVerified(true);
+    //     toast.success("OTP verified successfully!");
+    //   } catch (error) {
+    //     toast.error("Invalid OTP: " + error.message);
+    //   }
+    // }
   };
 
   return (
     <>
       <StepProgressBar currentStep={step} />
-      <div className="max-w-screen-lg mx-auto mt-5">
-        <div className="bg-[#5c99df] p-2 rounded-t-lg flex space-x-2">
-          <div className="bg-gray-300 py-2 px-4 rounded-lg">
-            <img
-              src="../../../doctorIcon.png"
-              height={40}
-              width={60}
-              alt="Doctor Icon"
-            />
-          </div>
-          <div className="text-white">
-            <p>Mohamed Grissa</p>
-            <p>Doctor</p>
-            <p>
-              <span className="material-symbols-outlined text-sm">
-                location_on
-              </span>{" "}
-              Sousse, Tunisie
-            </p>
-          </div>
-        </div>
-      </div>
+      <UpperFormPart />
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="px-6 pb-6 w-full flex items-start justify-center">
           <div className="w-full max-w-screen-lg mx-auto bg-white rounded-b-lg shadow-lg p-6">
-            {step === 1 && (
+            <div className="bg-gray-300 p-5">
+              <PhoneOtp />
+            </div>
+            {/* {step === 1 && (
               <div>
-                <h2 className="text-xl font-bold mb-4 text-center text-[#66BAAB]">
-                  Veuillez choisir la date du rendez-vous
-                </h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
-                  {dates.map((date, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      className={`px-4 py-2 rounded-lg border ${
-                        getValues("selectedDate") === date
-                          ? "bg-[#66BAAB] text-white border-blue-500"
-                          : "bg-gray-200 border-gray-300"
-                      } hover:bg-blue-400 hover:text-white transition-colors`}
-                      onClick={() => handleDateSelect(date)}
-                    >
-                      {date}
-                    </button>
-                  ))}
-                </div>
+                <DataRendezVous
+                  dates={dates}
+                  handleDateSelect={handleDateSelect}
+                  SelectedDate={getValues("selectedDate")}
+                />
 
-                <h2 className="text-xl font-bold mb-4 text-center text-[#66BAAB]">
-                  Veuillez choisir lheure du rendez-vous
-                </h2>
-                <div className="grid grid-cols-3 gap-4 mb-6">
-                  {times.map((time, index) => (
-                    <button
-                      key={index}
-                      type="button"
-                      className={`px-4 py-2 rounded-lg border ${
-                        getValues("selectedTime") === time
-                          ? "bg-[#66BAAB] text-white border-blue-500"
-                          : "bg-gray-200 border-gray-300"
-                      } hover:bg-blue-400 hover:text-white transition-colors`}
-                      onClick={() => handleTimeSelect(time)}
-                    >
-                      {time}
-                    </button>
-                  ))}
-                </div>
+                <TimeRendezVous
+                  handleTimeSelect={handleTimeSelect}
+                  times={times}
+                  selectedTime={getValues("selectedTime")}
+                />
 
                 <button
                   type="button"
@@ -190,11 +117,12 @@ const FormAppointment = () => {
                   Next
                 </button>
               </div>
-            )}
+            )} */}
 
             {step === 2 && (
               <>
-                <div>
+                {/* <PhoneInput /> */}
+                {/* <div>
                   <h2 className="text-xl font-bold mb-4 text-center text-[#66BAAB]">
                     Entrez votre numéro de téléphone
                   </h2>
@@ -244,29 +172,17 @@ const FormAppointment = () => {
                     {!otpSent ? "Send OTP" : "Verify OTP"}
                   </button>
                 </div>
-                <div id="recaptcha-container"></div>{" "}
+                <div id="recaptcha-container"></div>{" "} */}
                 {/* Add this div for reCAPTCHA */}
               </>
             )}
 
             {step === 3 && (
-              <div className="text-center">
-                <h2 className="text-xl font-bold text-green-500 mb-4">
-                  Succès
-                </h2>
-                <p className="mb-4">Votre rendez-vous est confirmé!</p>
-                <div className="bg-blue-100 p-4 rounded-lg text-left">
-                  <p>
-                    <strong>Date:</strong> {getValues("selectedDate")}
-                  </p>
-                  <p>
-                    <strong>Time:</strong> {getValues("selectedTime")}
-                  </p>
-                  <p>
-                    <strong>Phone:</strong> {getValues("phoneNumber")}
-                  </p>
-                </div>
-              </div>
+              <SuccessRendezVous
+                phoneNumber={getValues("phoneNumber")}
+                selectedDate={getValues("selectedDate")}
+                selectedTime={getValues("selectedTime")}
+              />
             )}
           </div>
           <ToastContainer />

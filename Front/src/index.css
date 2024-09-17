@@ -1,13 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 html,
 body {
   height: 100%;
   margin: auto;
 }
-
 #root {
   height: 100%;
 }
@@ -22,7 +20,6 @@ body {
 .shadoww {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
-
 .bgImage {
   background-image: url("./background_home.png");
   background-repeat: no-repeat;
@@ -38,20 +35,17 @@ body {
   justify-content: center;
   align-items: flex-end;
 }
-
 .slider-section {
   /* -webkit-box-flex: 1; */
   /* -ms-flex: 1; */
   /* display: -webkit-box; */
   padding: 45px 0 145px 0;
 }
-
 .justify-center-last {
   text-align: justify;
   text-align-last: center;
   hyphens: auto;
 }
-
 .bg-custom-gradient {
   background: linear-gradient(to bottom, #66baab 40%, rgb(241, 240, 240) 20%);
 }
@@ -84,4 +78,11 @@ body {
 .slick-next:before {
   color: white; /* Make arrow symbols white */
   font-size: 20px; /* Increase arrow size */
+}
+
+.opt-container {
+  @apply flex justify-between gap-2;
+}
+.opt-container input {
+  @apply !mr-0  flex-auto py-5 outline-none;
 }
