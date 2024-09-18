@@ -92,10 +92,7 @@ const FormAppointment = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="px-6 pb-6 w-full flex items-start justify-center">
           <div className="w-full max-w-screen-lg mx-auto bg-white rounded-b-lg shadow-lg p-6">
-            <div className="bg-gray-300 p-5">
-              <PhoneOtp />
-            </div>
-            {/* {step === 1 && (
+            {step === 1 && (
               <div>
                 <DataRendezVous
                   dates={dates}
@@ -117,63 +114,13 @@ const FormAppointment = () => {
                   Next
                 </button>
               </div>
-            )} */}
+            )}
 
             {step === 2 && (
               <>
-                {/* <PhoneInput /> */}
-                {/* <div>
-                  <h2 className="text-xl font-bold mb-4 text-center text-[#66BAAB]">
-                    Entrez votre numéro de téléphone
-                  </h2>
-                  <input
-                    disabled={confirmedPhoneNumber}
-                    type="tel"
-                    className="w-full p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    {...register("phoneNumber", {
-                      required: "Phone number is required",
-                      pattern: {
-                        value: /^[0-9]{8}$/,
-                        message: "Invalid phone number format",
-                      },
-                    })}
-                    placeholder="Votre numéro de téléphone"
-                  />
-                  {errors.phoneNumber && (
-                    <p className="text-red-500 text-sm">
-                      {errors.phoneNumber.message}
-                    </p>
-                  )}
-
-                  {confirmedPhoneNumber && (
-                    <input
-                      type="text"
-                      className="w-full p-2 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      {...register("otp", {
-                        required: "OTP is required",
-                        pattern: {
-                          value: /^[0-9]{6}$/,
-                          message: "Invalid OTP format",
-                        },
-                      })}
-                      placeholder="Enter OTP"
-                    />
-                  )}
-
-                  <button
-                    onClick={() =>
-                      !otpSent
-                        ? confirmPhoneNumber(getValues("phoneNumber"))
-                        : verifyOtp(getValues())
-                    }
-                    type="button"
-                    className="w-full bg-[#66BAAB] text-white py-2 rounded-lg transition-colors"
-                  >
-                    {!otpSent ? "Send OTP" : "Verify OTP"}
-                  </button>
+                <div className="bg-gray-300 p-5">
+                  <PhoneOtp />
                 </div>
-                <div id="recaptcha-container"></div>{" "} */}
-                {/* Add this div for reCAPTCHA */}
               </>
             )}
 
