@@ -17,6 +17,7 @@ app.use(express.json()); // Middleware to parse JSON request bodies
 // Your other middleware and routes here
 app.use("/api/auth", authRoute);
 app.use("/api/contact", contactRoute);
+app.use("/api/otp", otpRoute);
 const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
