@@ -2,7 +2,21 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const backendURL = "http://localhost:5000/api";
-const initialState = {
+
+interface ContactInfo {
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface ContactState {
+  contactInfo: ContactInfo;
+  isLoading: boolean;
+  error: string | null;
+  success: boolean | null;
+}
+
+const initialState: ContactState = {
   contactInfo: {
     email: "",
     subject: "",
@@ -12,6 +26,26 @@ const initialState = {
   error: null,
   success: null,
 };
+
+export const submitContact = createAsyncThunk<
+  ContactInfo,
+  ContactInfo,
+  { rejectValue: string }
+>(
+  "contact/submitContact",
+  async (contactData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(`${backendURL}/contact`, contactData);
+      const { data } = response;
+      return data;
+    } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const contactSlice = createSlice({
   name: "contact",
@@ -31,26 +65,10 @@ const contactSlice = createSlice({
       })
       .addCase(submitContact.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload as string;
         state.success = false;
       });
   },
 });
-
-export const submitContact = createAsyncThunk(
-  "contact/submitContact",
-  async (contactData, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${backendURL}/contact`, contactData);
-      const { data } = response;
-      return data;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue(error.message);
-    }
-  }
-);
 
 export default contactSlice.reducer;

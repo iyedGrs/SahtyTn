@@ -1,7 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loginUser, registerUser } from "./authActions";
 
-const initialState = {
+interface User {
+  _id: string;
+  username: string;
+  email: string;
+  password: string;
+  date: string;
+  role: string;
+  id_doctor: string | null;
+  __v: number;
+}
+
+interface UserState {
+  userInfo: User | null;
+  userToken: string | null;
+  isLoading: boolean;
+  error: string | null;
+  success: boolean | null;
+  isAuth: boolean;
+}
+
+const initialState: UserState = {
   userInfo: null,
   userToken: null,
   isLoading: false,
@@ -9,6 +29,7 @@ const initialState = {
   success: null,
   isAuth: false,
 };
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -43,7 +64,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload as string;
         state.success = false;
       })
       .addCase(registerUser.pending, (state) => {
@@ -61,7 +82,7 @@ const userSlice = createSlice({
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload;
+        state.error = action.payload as string;
         state.success = false;
       });
   },

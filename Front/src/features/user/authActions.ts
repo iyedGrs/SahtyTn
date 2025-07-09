@@ -3,7 +3,40 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const backendURL = "http://localhost:5000/api/auth";
-export const loginUser = createAsyncThunk(
+
+interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+interface User {
+  _id: string;
+  username: string;
+  email: string;
+  password: string;
+  date: string;
+  role: string;
+  id_doctor: string | null;
+  __v: number;
+}
+
+interface AuthResponse {
+  user: User;
+  token: string;
+}
+
+interface RegisterUserData {
+  username: string;
+  email: string;
+  password: string;
+  role?: string;
+}
+
+export const loginUser = createAsyncThunk<
+  AuthResponse,
+  LoginCredentials,
+  { rejectValue: string }
+>(
   "auth/loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
@@ -20,7 +53,7 @@ export const loginUser = createAsyncThunk(
       const { data } = response;
       // local storage if we want to
       return data;
-    } catch (error) {
+    } catch (error: any) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       }
@@ -29,7 +62,11 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const registerUser = createAsyncThunk(
+export const registerUser = createAsyncThunk<
+  AuthResponse,
+  RegisterUserData,
+  { rejectValue: string }
+>(
   "auth/registerUser",
   async (user, { rejectWithValue }) => {
     try {
@@ -41,7 +78,7 @@ export const registerUser = createAsyncThunk(
       const response = await axios.post(`${backendURL}/register`, user, config);
       const { data } = response;
       return data;
-    } catch (error) {
+    } catch (error: any) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       }
