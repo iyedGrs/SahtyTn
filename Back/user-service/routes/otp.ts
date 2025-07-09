@@ -1,23 +1,29 @@
-// ...existing code...
-const express = require("express");
-const router = express.Router();
-const nodemailer = require("nodemailer");
-require("dotenv").config(); // Load environment variables from .env file
+import express, { Request, Response, Router } from "express";
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+dotenv.config(); // Load environment variables from .env file
+
+const router: Router = express.Router();
 
 // OTP generation function
-const generateOtp = () => Math.floor(100000 + Math.random() * 900000);
+const generateOtp = (): number => Math.floor(100000 + Math.random() * 900000);
 
 // Store OTPs in memory (for demo purposes)
 // Use a database like Redis or MongoDB in production
-let otpStore = {};
+interface OtpStore {
+  [email: string]: number;
+}
+
+let otpStore: OtpStore = {};
 
 // Configure Nodemailer transporter
 const createTransporter = () => {
-  return nodemailer.createTransport({
+  return nodemailer.createTransporter({
     service: "gmail",
     auth: {
-      user: process.env.EMAIL_USER, // Environment variable for email
-      pass: process.env.EMAIL_PASS, // Environment variable for password
+      user: process.env.EMAIL_USER as string, // Environment variable for email
+      pass: process.env.EMAIL_PASS as string, // Environment variable for password
     },
     tls: {
       rejectUnauthorized: false, // For development purposes
@@ -26,13 +32,12 @@ const createTransporter = () => {
 };
 
 // Route to send OTP to email
-router.post("/send-otp", async (req, res) => {
-  const { email } = req.body;
+router.post("/send-otp", async (req: Request, res: Response): Promise<void> => {
+  const { email }: { email: string } = req.body;
 
   if (!email) {
-    return res
-      .status(400)
-      .json({ success: false, error: "Invalid email address" });
+    res.status(400).json({ success: false, error: "Invalid email address" });
+    return;
   }
 
   const otp = generateOtp();
@@ -41,7 +46,7 @@ router.post("/send-otp", async (req, res) => {
   const transporter = createTransporter();
 
   const mailOptions = {
-    from: process.env.EMAIL_USER, // Use environment variable for sender email
+    from: process.env.EMAIL_USER as string, // Use environment variable for sender email
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otp}`,
@@ -57,14 +62,17 @@ router.post("/send-otp", async (req, res) => {
 });
 
 // Route to verify OTP
-router.post("/verify-otp", (req, res) => {
-  const { email, otp } = req.body;
+router.post("/verify-otp", (req: Request, res: Response): void => {
+  const { email, otp }: { email: string; otp: string } = req.body;
   console.log(email, otp);
+
   if (!email || !otp) {
-    return res
+    res
       .status(400)
       .json({ success: false, error: "Email and OTP are required" });
+    return;
   }
+
   if (otpStore[email] && otpStore[email].toString() === otp.toString()) {
     delete otpStore[email]; // OTP verified, remove from store
     res
@@ -75,4 +83,4 @@ router.post("/verify-otp", (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
