@@ -1,5 +1,5 @@
-const Contact = require("../Models/Contact");
-const User = require("../Models/User");
+const Contact = require("../../Models/Contact");
+const User = require("../../Models/User");
 
 const contactController = async (req, res) => {
   const { email, subject, message } = req.body;
