@@ -33,10 +33,10 @@ const PORT = process.env.USER_SERVICE_PORT || 5001;
 const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL as string);
-    console.log("User Service: Connected to MongoDB");
+    console.log("User Service: Connected   to  to MongoDBe");
 
     app.listen(PORT, () => {
-      console.log(`User Service running on port ${PORT}`);
+      console.log(`User Service running it on port ${PORT}`);
     });
   } catch (error) {
     console.error("User Service: Failed to connect to MongoDB", error);
