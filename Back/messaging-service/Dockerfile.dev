@@ -5,10 +5,21 @@ ENV NODE_ENV=development
 ENV PORT=3001
 
 
-WORKDIR /app
+WORKDIR /workspace
+COPY tsconfig.base.json ./
 
-COPY package*.json .
+WORKDIR /workspace/messaging-service
+
+COPY messaging-service/package*.json ./
 
 RUN npm install
+
+RUN npm install -g typescript ts-node
+
+# Copy the base config to parent directory inside container
+COPY messaging-service/tsconfig.json ./
+COPY messaging-service/ ./
+
+EXPOSE 3001
 
 CMD [ "npm", "run", "start:dev" ]
