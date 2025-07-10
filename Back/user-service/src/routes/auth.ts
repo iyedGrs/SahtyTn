@@ -1,5 +1,5 @@
 import express, { Request, Response, Router } from "express";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
 import {
@@ -80,7 +80,7 @@ router.post("/login", async (req: Request, res: Response): Promise<void> => {
 
     // Respond with the access token
     const userResponse: IUserResponse = {
-      _id: user._id?.toString(),
+      _id: user._id ? user._id.toString() : "",
       username: user.username,
       email: user.email,
       date: user.date,
