@@ -1,0 +1,47 @@
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { links } from "../data/NavBarUser";
+
+const Navbar: React.FC = () => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const cssClass = "text-[#fff]  text-lg transition duration-150 p-2 ";
+
+  return (
+    <nav
+      className={`${
+        currentPath === "/home" ? "" : "bg-[#39AD96]"
+      } px-6 py-6  font-Josefin w-full h-max `}
+    >
+      <div className="  mx-auto container flex items-center justify-between  ">
+        <div className="flex items-center justify-center ">
+          <p className=" text-xl lg:text-4xl font-Matemasie  text-[#fff]  ">
+            Sahty
+          </p>
+        </div>
+        <div className="flex space-x-5 lg:space-x-16  pr-5">
+          {links.map((link, index) => (
+            <NavLink
+              key={index}
+              to={link.to}
+              className={({ isActive }) =>
+                link.isRendezVous
+                  ? `${
+                      cssClass +
+                      "bg-[#0C5D69] text-white rounded hidden md:block  "
+                    }`
+                  : isActive
+                  ? cssClass + "underline decoration-1 underline-offset-4 "
+                  : cssClass
+              }
+            >
+              {link.text}
+            </NavLink>
+          ))}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
