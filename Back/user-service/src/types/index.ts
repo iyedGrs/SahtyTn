@@ -1,4 +1,4 @@
-import { IBaseEntity } from "../../common-libs/types";
+import { IBaseEntity } from "@common-libs/types";
 
 export interface IUser extends IBaseEntity {
   username?: string;
