@@ -1,22 +1,30 @@
 services:
   user-service:
     build:
-      context: ./Back/user-service
-      dockerfile: Dockerfile.dev
-    expose:
-      - "3001"
+      context: ./Back
+      dockerfile: user-service/Dockerfile.dev
+    ports:
+      - "3000:3000"
     networks:
       - sahtytn-network
+    environment:
+      - USER_SERVICE_PORT=3000
+    volumes:
+      - ./Back/user-service:/workspace/user-service
     container_name: user-service-container
 
   messaging-service:
     build:
-      context: ./Back/messaging-service
-      dockerfile: Dockerfile.dev
-    expose:
-      - "3002"
+      context: ./Back
+      dockerfile: messaging-service/Dockerfile.dev
+    ports:
+      - "3001:3001"
     networks:
       - sahtytn-network
+    environment:
+      - MESSAGING_SERVICE_PORT=3001
+    volumes:
+      - ./Back/messaging-service:/workspace/messaging-service
     container_name: messaging-service-container
 
   frontend:
@@ -28,6 +36,8 @@ services:
     networks:
       - sahtytn-network
     container_name: frontend-container
+    environment:
+      - VITE_HOST=0.0.0.0
 
 networks:
   sahtytn-network:
