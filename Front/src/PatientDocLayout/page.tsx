@@ -1,10 +1,10 @@
+import React, { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { SideBar } from "../components/SideBar";
-import { useState, useEffect } from "react";
 import NavBarPatientDoc from "../components/NavBarPatientDoc";
 
-const RootLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+const RootLayout: React.FC = () => {
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   useEffect(() => {
     // Ensure the sidebar fits to the left on medium and large screens

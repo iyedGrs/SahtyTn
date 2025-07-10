@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Slider from "react-slick";
+import Slider from "react-slick"
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { doctors } from "../../data/doctors";
@@ -74,6 +74,7 @@ const DocSlider: React.FC<DocSliderProps> = ({ setIsSelectedDoc }) => {
       </h2>
     
       {/* @ts-ignore - react-slick types not available */}
+
       <Slider {...settings}>
         
         {doctors.map((item, index) => (

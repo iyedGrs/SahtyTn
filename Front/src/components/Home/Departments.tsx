@@ -9,7 +9,7 @@ interface ExpandedState {
 }
 
 const Departments: React.FC = () => {
-  console.log("this is are departments", departments);
+  console.log("these are departments", departments);
   const [expanded, setExpanded] = useState<ExpandedState>({});
   
   const SliceWord = (text: string, isExpanded: boolean): string => {
@@ -43,6 +43,7 @@ const Departments: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4">
           {departments.map((department, index) => (
+            
             <div
               key={index}
               className=" text-center flex flex-col items-center flex-wrap gap-4 p-4 w-5/6 mx-auto "
