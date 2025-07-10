@@ -1,0 +1,36 @@
+services:
+  user-service:
+    build:
+      context: ./Back/user-service
+      dockerfile: Dockerfile.dev
+    expose:
+      - "3001"
+    networks:
+      - sahtytn-network
+    container_name: user-service-container
+
+  messaging-service:
+    build:
+      context: ./Back/messaging-service
+      dockerfile: Dockerfile.dev
+    expose:
+      - "3002"
+    networks:
+      - sahtytn-network
+    container_name: messaging-service-container
+
+  frontend:
+    build:
+      context: ./Front
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    networks:
+      - sahtytn-network
+    container_name: frontend-container
+
+networks:
+  sahtytn-network:
+    name: sahtytn-network
+    driver: bridge
+    external: true
