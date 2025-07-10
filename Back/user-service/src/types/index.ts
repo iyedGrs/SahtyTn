@@ -10,6 +10,7 @@ export interface IUser extends IBaseEntity {
 }
 
 export interface IUserResponse extends IBaseEntity {
+  _id: string;
   username?: string;
   email: string;
   date: string;
