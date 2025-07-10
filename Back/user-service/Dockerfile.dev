@@ -5,10 +5,23 @@ ENV NODE_ENV=development
 ENV PORT=3000
 
 
-WORKDIR /app
+WORKDIR /workspace
+COPY tsconfig.base.json ./
+WORKDIR /workspace/user-service
 
-COPY package*.json .
+COPY user-service/package*.json ./
 
-RUN npm install
+RUN npm install 
+
+RUN npm install -g typescript ts-node
+
+COPY user-service/tsconfig.json ./
+COPY user-service/ ./
+
+
+EXPOSE 3000
+
+
+
 
 CMD [ "npm", "run", "start:dev" ]
