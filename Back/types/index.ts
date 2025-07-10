@@ -9,7 +9,7 @@ export {
   IUserLogin,
   IAuthResponse,
   IJwtPayload,
-} from "../user-service/types";
+} from "../user-service/src/types";
 
 // Re-export messaging types for backward compatibility (temporary)
-export { IContactRequest } from "../messaging-service/types";
+export { IContactRequest } from "../messaging-service/src/types";
