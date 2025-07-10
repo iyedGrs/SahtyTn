@@ -1,4 +1,4 @@
-import { IBaseEntity } from "../../../common-libs/types";
+import { IBaseEntity } from "@common-libs/types";
 
 export interface IContactRequest {
   name: string;
