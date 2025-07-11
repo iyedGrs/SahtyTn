@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api/auth", authRoute);
+app.use("/auth", authRoute);
 app.use("/api/otp", otpRoute);
 
 // Health check endpoint
