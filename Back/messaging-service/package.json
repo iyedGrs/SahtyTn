@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "dev": "nodemon index.js",
     "start:dev": "nodemon --legacy-watch --watch src --ext ts,js,json --exec ts-node ./src/index.ts",
     "docker-build:dev": "docker build -t messaging-service-image-dev:0.1 -f Dockerfile.dev .",
     "docker-run:dev": "docker run -it -p 3001:3001 --name messaging-service-container -v ./:/app -v my-node-modules:/app/node_modules messaging-service-image-dev:0.1",
