@@ -1,0 +1,10 @@
+services:
+  api-gateway:
+    image: nginx:latest
+    container_name: api-gateway
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    # This ensures that the container will always restart unless explicitly stopped, which is useful for maintaining service availability.
+    restart: unless-stopped
