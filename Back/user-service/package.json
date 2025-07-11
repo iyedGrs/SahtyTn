@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "dev": "nodemon index.ts",
     "start:dev": "nodemon --legacy-watch --watch src --ext ts,js,json --exec ts-node ./src/index.ts",
     "docker-build:dev": "docker build -t user-service-image-dev:0.1 -f Dockerfile.dev .",
     "docker-run:dev": "docker run -it -p 3000:3000 --name user-service-container -v ./:/app -v my-node-modules:/app/node_modules user-service-image-dev:0.1",

@@ -34,7 +34,7 @@ const startServer = async () => {
     console.log("Messaging Service: Connected to MongoDB");
 
     app.listen(PORT, () => {
-      console.log(`Messaging Service running on port ${PORT}`);
+      console.log(`Messaging Service is running on port ${PORT}`);
     });
   } catch (error) {
     console.error("Messaging Service: Failed to connect to MongoDB", error);
