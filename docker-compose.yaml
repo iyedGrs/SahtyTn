@@ -27,6 +27,20 @@ services:
       - ./Back/messaging-service:/workspace/messaging-service
     container_name: messaging-service-container
 
+  appointment-service:
+    build:
+      context: ./Back
+      dockerfile: appointment-service/Dockerfile.dev
+    ports:
+      - "3002:3002"
+    networks:
+      - sahtytn-network
+    environment:
+      - APPOINTMENT_SERVICE=3002
+    volumes:
+      - ./Back/appointment-service/workspace/appointment-service
+    container_name: appointment-service-container
+
   frontend:
     build:
       context: ./Front
