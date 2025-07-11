@@ -5,6 +5,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../index.css";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { submitContact } from "@/features/user/contactActions";
 
 interface ContactFormData {
   email: string;
@@ -14,26 +17,25 @@ interface ContactFormData {
 }
 
 const Contact: React.FC = () => {
-  const { setValue, register, handleSubmit, reset } = useForm<ContactFormData>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const { setValue, register, handleSubmit, reset } =
+    useForm<ContactFormData>();
+  const { isLoading, error, success } = useSelector(
+    (state: RootState) => state.contact
+  );
+  // const handleLogin = async (data: LoginFormData) => {
+  //   try {
+  //     const resultAction = await dispatch(loginUser(data) as any).unwrap();
+  //     navigate(`/${resultAction.user.role}`);
+  //   } catch (err) {
+  //     alert("login Failed" + err);
+  //   }
+  // };
+  const dispatch = useDispatch();
 
   const handleContactForm = async (data: ContactFormData): Promise<void> => {
-    const access_key = "52f8b65a-bde1-41ea-911e-0f4164c64132";
-    setValue("access_key", access_key);
-    setLoading(true);
-
     try {
-      const response = await axios.post(
-        "https://api.web3forms.com/submit",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.data.success) {
+      await dispatch(submitContact(data) as any).unwrap();
+      if (success) {
         toast.success("Message sent successfully!", {
           position: "bottom-right",
           autoClose: 5000,
@@ -41,36 +43,20 @@ const Contact: React.FC = () => {
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          className: "custom-toast",
         });
         reset();
-      } else {
-        toast.error("Failed to send message. Please try again.", {
+      }
+      if (error) {
+        toast.error(`Error: ${error}`, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
-          className: "custom-toast",
-          bodyClassName: "custom-toast-body",
         });
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred. Please try again.", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        className: "custom-toast",
-        bodyClassName: "custom-toast-body",
-      });
-    } finally {
-      setLoading(false);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -150,12 +136,38 @@ const Contact: React.FC = () => {
                   required
                 ></textarea>
               </div>
-              <button
-                className="bg-[#0C5D69] hover:bg-primary-800 py-3 px-5 text-sm font-medium text-center text-white rounded-lg"
-                type="submit"
-              >
-                Send Message
-              </button>
+
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin h-5 w-5 text-blue-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2.93 6.364A8.003 8.003 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3.93-1.574zM12 20a8.003 8.003 0 01-6.364-2.93l-3.93 1.574A11.95 11.95 0 0012 24v-4zm6.364-2.93A8.003 8.003 0 0120 12h4c0 3.042-1.135 5.824-3 7.938l-3.636-1.568zM20 12a8.003 8.003 0 01-2.93-6.364l3.636-1.568A11.95 11.95 0 0024 12h-4z"
+                    ></path>
+                  </svg>
+                </div>
+              ) : (
+                <button
+                  className="bg-[#0C5D69] hover:bg-primary-800 py-3 px-5 text-sm font-medium text-center text-white rounded-lg"
+                  type="submit"
+                >
+                  Send Message
+                </button>
+              )}
             </form>
           </div>
         </section>
