@@ -6,9 +6,11 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { setUser } from "@/store/slices/user-slice";
 import {
+  api,
   useGetCurrentUserQuery,
   useLoginUserMutation,
 } from "@/store/state/api";
+import { RootState } from "@/store/store";
 
 interface LoginFormData {
   email: string;
@@ -30,29 +32,26 @@ interface LoginFormData {
 
 const Login: React.FC = () => {
   const [loginUser, { isSuccess }] = useLoginUserMutation();
-  const { data: user, refetch } = useGetCurrentUserQuery(undefined, {
-    skip: true,
-  });
+  const { data: data, refetch } = useGetCurrentUserQuery(undefined);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<LoginFormData>();
-
+  console.log("this is the data from the useGetCurrentUserQuery", data);
   const handleLogin = async (data: LoginFormData) => {
     try {
-      const resultAction = await loginUser(data).unwrap();
-
+      await loginUser(data).unwrap();
       const user = await refetch().unwrap();
       if (user && user.role) {
-        dispatch(setUser(user));
-        navigate(`/${resultAction.user.role}`);
+        // dispatch(setUser(user)); // filling the user state in Redux
+        navigate(`/${user.role}`);
       } else {
         alert("User role is not defined");
       }
     } catch (err) {
       alert("login Failed" + err);
+      console.log("the error is", err);
     }
   };
-
   return (
     <div className="  w-full  max-w-[1200px] m-auto mt-10 h-[calc(100vh-150px)] font-Josefin flex items-center justify-center overflow-hidden  ">
       <div className="w-full border-2   h-full mb-10 bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] flex  justify-center ">

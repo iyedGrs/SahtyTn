@@ -103,19 +103,23 @@ export const currentUser = async (
   res: Response
 ): Promise<void> => {
   try {
-    const user = (req as any).user; // Assuming user is set in the middleware
-    if (!user) {
-      res.status(401).json({ message: "Unauthorized" });
+    const token = req.cookies.token;
+    if (!token) {
+      res.status(401).json({ message: "No token" });
       return;
     }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      id: string;
+    };
 
-    const userData = await User.findById(user.id).select("-password");
-    if (!userData) {
+    const userId = decoded.id;
+    const user = await User.findById(userId).select("-password");
+
+    if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
     }
-
-    res.status(200).json(userData);
+    res.json(user);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).json({ message: "Internal Server Error" });

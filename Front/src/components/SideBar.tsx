@@ -1,7 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import sidebarItems from "../data/SibarData";
 import { NavLink } from "react-router-dom";
+import { useGetCurrentUserQuery } from "@/store/state/api";
 
 interface SidebarItem {
   path: string;
@@ -9,26 +9,15 @@ interface SidebarItem {
   title: string;
 }
 
-interface RootState {
-  auth: {
-    userInfo: {
-      role: string;
-    };
-  };
-}
-
 export const SideBar: React.FC = () => {
-  const auth = useSelector((state: RootState) => state.auth);
-  const role = auth.userInfo.role;
+  const { data: user } = useGetCurrentUserQuery(undefined);
+  const role = user?.role;
   let items: SidebarItem[] = [];
-  console.log("role is ", role);
-  console.log("side bar items", sidebarItems);
   if (role === "docteur") {
     items = sidebarItems.doctor;
   } else if (role === "patient") {
     items = sidebarItems.client;
   }
-  console.log("itesm from sidebar", items);
   return (
     <div className="h-screen flex flex-col bg-white text-black ">
       <div className="p-4">

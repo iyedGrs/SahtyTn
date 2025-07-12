@@ -4,11 +4,19 @@
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+interface User {
+  _id: string;
+  username: string;
+  email: string;
+  role: string;
+  // ...other fields
+}
+
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8080/api",
-    credentials: "include",
+    credentials: "include", //for cookies
   }),
   tagTypes: ["Auth", "Contact"],
   endpoints: (builder) => ({
@@ -28,9 +36,11 @@ export const api = createApi({
       }),
       invalidatesTags: ["Auth"],
     }),
-    getCurrentUser: builder.query({
-      query: () => "/user/me",
+    // In your api.ts
+    getCurrentUser: builder.query<User, void>({
+      query: () => "/user/auth/me",
     }),
+
     submitContact: builder.mutation({
       query: (contactData) => ({
         url: "/message/contact",
