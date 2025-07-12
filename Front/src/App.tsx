@@ -13,24 +13,31 @@ import Appointment from "./pages/loggedUser/Appointment";
 import Prescriptionn from "./pages/loggedUser/Prescriptionn";
 import MedicalRecord from "./pages/loggedUser/MedicalRecord";
 import PublicLayout from "./RootLayout/PublicLayout";
+import { useSelector } from "react-redux";
 
-const isAuth = true;
-const userInfo = {
-  _id: "66d1bcea2b831c571bbe8d5d",
-  username: "ahmed@gmail.com",
-  email: "ahm1ed@gmail.com",
-  password: "$2b$10$w39T5d62LdQNSZjWmNdM4eSFJM6eAlU3serPTNiFoAYbt5HJF03V.",
-  date: "2024-08-14",
-  role: "patient",
-  id_doctor: null,
-  __v: 0,
-};
-let basePath = "";
-if (isAuth) {
-  basePath = userInfo.role;
-}
+import type { RootState } from "./store/store";
+
+// const isAuth = true;
+// const userInfo = {
+//   _id: "66d1bcea2b831c571bbe8d5d",
+//   username: "ahmed@gmail.com",
+//   email: "ahm1ed@gmail.com",
+//   password: "$2b$10$w39T5d62LdQNSZjWmNdM4eSFJM6eAlU3serPTNiFoAYbt5HJF03V.",
+//   date: "2024-08-14",
+//   role: "patient",
+//   id_doctor: null,
+//   __v: 0,
+// };
 
 const App: React.FC = () => {
+  const { isAuth, userInfo } = useSelector((state: RootState) => state.auth);
+  let basePath = "";
+  if (isAuth) {
+    if (!userInfo) {
+      throw new Error("User information is not available in the Redux store.");
+    }
+    basePath = userInfo.role;
+  }
   return (
     <Routes>
       <Route path="/" element={<PublicLayout />}>

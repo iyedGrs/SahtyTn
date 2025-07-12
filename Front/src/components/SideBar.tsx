@@ -18,9 +18,8 @@ interface RootState {
 }
 
 export const SideBar: React.FC = () => {
-  // const auth = useSelector((state: RootState) => state.auth);
-  // const role = auth.userInfo.role;
-  const role: string = "patient";
+  const auth = useSelector((state: RootState) => state.auth);
+  const role = auth.userInfo.role;
   let items: SidebarItem[] = [];
   console.log("role is ", role);
   console.log("side bar items", sidebarItems);
