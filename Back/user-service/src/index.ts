@@ -7,6 +7,8 @@ import authRoute from "./routes/auth";
 import otpRoute from "./routes/otp";
 
 dotenv.config();
+// setting the cookie parser
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -14,6 +16,8 @@ const app = express();
 // app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
+// for the cookie parser
+app.use(cookieParser());
 
 // Routes
 app.use("/auth", authRoute);
