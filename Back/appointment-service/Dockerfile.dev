@@ -1,0 +1,27 @@
+FROM node:22-alpine
+
+ENV NODE_ENV=development
+
+ENV PORT=3002
+
+
+WORKDIR /workspace
+COPY tsconfig.base.json ./
+WORKDIR /workspace/appointment-service
+
+COPY appointment-service/package*.json ./
+
+RUN npm install 
+
+RUN npm install -g typescript ts-node
+
+COPY appointment-service/tsconfig.json ./
+COPY appointment-service/ ./
+
+
+EXPOSE 3002
+
+
+
+
+CMD [ "npm", "run", "start:dev" ]
