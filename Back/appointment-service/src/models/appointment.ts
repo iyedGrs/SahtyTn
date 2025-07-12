@@ -3,17 +3,27 @@ import { IAppointment } from "../types";
 
 const AppointmentSchema = new Schema<IAppointment>(
   {
-    patientId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    doctorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    date: { type: Date, required: true },
-    time: { type: String, required: true },
+    patientId: { 
+      type: Schema.Types.ObjectId, 
+      ref: "User", 
+      required: true },
+    doctorId: { 
+      type: Schema.Types.ObjectId, 
+      ref: "User", 
+      required: true },
+    date: { 
+      type: Date, required: true },
+    time: { 
+      type: String, required: true },
     status: {
       type: String,
       enum: ["pending", "confirmed", "cancelled", "completed"],
       default: "pending",
     },
-    specialty: { type: Schema.Types.ObjectId,ref: "Speciality",required: false},
-    
+    speciality: { 
+      type: Schema.Types.ObjectId,
+      ref: "Speciality",
+      required: false},
   },
   { timestamps: true }
 );

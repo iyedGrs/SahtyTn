@@ -1,7 +1,8 @@
-import {IUser} from '@user-service/types';
+import {IUser} from '@user-service/types/index';
 import { Document } from 'mongoose';
+
 export interface IDoctor extends IUser {
-  specialty?: string;
+  speciality?: string;
   phone?: string;
   address?: string;
 }
@@ -37,7 +38,7 @@ import mongoose from 'mongoose';
 export interface IAppointment extends Document {
   patientId: mongoose.Types.ObjectId | string;
   doctorId: mongoose.Types.ObjectId | string;
-  specialty?: mongoose.Types.ObjectId | string;
+  speciality?: mongoose.Types.ObjectId | string;
   date: Date;
   time: string;
   status: "pending" | "confirmed" | "cancelled" | "completed";

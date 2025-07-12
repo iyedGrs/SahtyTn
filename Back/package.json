@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently -n user,msg -c green,cyan \"npm run dev --prefix user-service\" \"npm run dev --prefix messaging-service\"",
+    "dev": "concurrently -n user,msg,appoint -c green,cyan,magenta \"npm run dev --prefix user-service\" \"npm run dev --prefix messaging-service\" \"npm run dev --prefix appointment-service",
     "test": "echo \"Error: no test specified\" && exit 1",
     "index": "node index.js",
     "start": "nodemon index.js"
