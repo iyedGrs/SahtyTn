@@ -30,7 +30,19 @@ import type { RootState } from "./store/store";
 // };
 
 const App: React.FC = () => {
-  const { isAuth, userInfo } = useSelector((state: RootState) => state.auth);
+  // const { isAuth, userInfo } = useSelector((state: RootState) => state.auth);
+  // create mock values for isAuth and userInfo
+  const isAuth = false;
+  const userInfo = {
+    _id: "66d1bcea2b831c571bbe8d5d",
+    username: "ahmed@gmail.com",
+    email: "ahm1ed@gmail.com",
+    password: "$2b$10$w39T5d62LdQNSZjWmNdM4eSFJM6eAlU3serPTNiFoAYbt5HJF03V.",
+    date: "2024-08-14",
+    role: "patient",
+    id_doctor: null,
+    __v: 0,
+  }; // or mock user info if needed
   let basePath = "";
   if (isAuth) {
     if (!userInfo) {

@@ -4,48 +4,55 @@ import { loginUser } from "../../features/user/authActions";
 import { inputFields } from "../../data/NavBarUser";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { setUser } from "@/store/slices/user-slice";
+import {
+  useGetCurrentUserQuery,
+  useLoginUserMutation,
+} from "@/store/state/api";
 
 interface LoginFormData {
   email: string;
   password: string;
 }
 
-interface AuthState {
-  userInfo: {
-    user: {
-      role: string;
-    };
-  } | null;
-  error: string | null;
-}
+// interface AuthState {
+//   userInfo: {
+//     user: {
+//       role: string;
+//     };
+//   } | null;
+//   error: string | null;
+// }
 
-interface RootState {
-  auth: AuthState;
-}
+// interface RootState {
+//   auth: AuthState;
+// }
 
 const Login: React.FC = () => {
+  const [loginUser, { isSuccess }] = useLoginUserMutation();
+  const { data: user, refetch } = useGetCurrentUserQuery(undefined, {
+    skip: true,
+  });
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-  const { userInfo, error } = useSelector((state: RootState) => state.auth);
   const { register, handleSubmit } = useForm<LoginFormData>();
-  
+
   const handleLogin = async (data: LoginFormData) => {
     try {
-      const resultAction = await dispatch(loginUser(data) as any).unwrap();
-      navigate(`/${resultAction.user.role}`);
+      const resultAction = await loginUser(data).unwrap();
+
+      const user = await refetch().unwrap();
+      if (user && user.role) {
+        dispatch(setUser(user));
+        navigate(`/${resultAction.user.role}`);
+      } else {
+        alert("User role is not defined");
+      }
     } catch (err) {
       alert("login Failed" + err);
     }
   };
-  
-  useEffect(() => {
-    if (userInfo) {
-      console.log("user info", userInfo);
-      // navigate("/dashboard");
-    }
-  }, [userInfo]);
-  
+
   return (
     <div className="  w-full  max-w-[1200px] m-auto mt-10 h-[calc(100vh-150px)] font-Josefin flex items-center justify-center overflow-hidden  ">
       <div className="w-full border-2   h-full mb-10 bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] flex  justify-center ">
