@@ -4,48 +4,54 @@ import { loginUser } from "../../features/user/authActions";
 import { inputFields } from "../../data/NavBarUser";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
+import { setUser } from "@/store/slices/user-slice";
+import {
+  api,
+  useGetCurrentUserQuery,
+  useLoginUserMutation,
+} from "@/store/state/api";
+import { RootState } from "@/store/store";
 
 interface LoginFormData {
   email: string;
   password: string;
 }
 
-interface AuthState {
-  userInfo: {
-    user: {
-      role: string;
-    };
-  } | null;
-  error: string | null;
-}
+// interface AuthState {
+//   userInfo: {
+//     user: {
+//       role: string;
+//     };
+//   } | null;
+//   error: string | null;
+// }
 
-interface RootState {
-  auth: AuthState;
-}
+// interface RootState {
+//   auth: AuthState;
+// }
 
 const Login: React.FC = () => {
+  const [loginUser, { isSuccess }] = useLoginUserMutation();
+  const { data: data, refetch } = useGetCurrentUserQuery(undefined);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-  const { userInfo, error } = useSelector((state: RootState) => state.auth);
   const { register, handleSubmit } = useForm<LoginFormData>();
-  
+  console.log("this is the data from the useGetCurrentUserQuery", data);
   const handleLogin = async (data: LoginFormData) => {
     try {
-      const resultAction = await dispatch(loginUser(data) as any).unwrap();
-      navigate(`/${resultAction.user.role}`);
+      await loginUser(data).unwrap();
+      const user = await refetch().unwrap();
+      if (user && user.role) {
+        // dispatch(setUser(user)); // filling the user state in Redux
+        navigate(`/${user.role}`);
+      } else {
+        alert("User role is not defined");
+      }
     } catch (err) {
       alert("login Failed" + err);
+      console.log("the error is", err);
     }
   };
-  
-  useEffect(() => {
-    if (userInfo) {
-      console.log("user info", userInfo);
-      // navigate("/dashboard");
-    }
-  }, [userInfo]);
-  
   return (
     <div className="  w-full  max-w-[1200px] m-auto mt-10 h-[calc(100vh-150px)] font-Josefin flex items-center justify-center overflow-hidden  ">
       <div className="w-full border-2   h-full mb-10 bg-white rounded-lg md:shadow-[0px_3px_6px_rgba(0,0,0,0.16),_0px_3px_6px_rgba(0,0,0,0.23)] flex  justify-center ">

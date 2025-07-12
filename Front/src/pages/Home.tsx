@@ -3,6 +3,8 @@ import ContainerMmaxWidth from "../components/Container-max-width";
 import "../index.css";
 import { content } from "../data/contentHome";
 import SlideContent from "../components/SlideContent";
+import { useNavigate } from "react-router-dom";
+import { useGetCurrentUserQuery } from "@/store/state/api";
 
 interface SliderState {
   currentIndex: number;
@@ -11,6 +13,16 @@ interface SliderState {
 }
 
 const Home: React.FC = () => {
+  // const { data: user } = useGetCurrentUserQuery(undefined);
+
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   if (user && user.role) {
+  //     navigate(`/${user.role}`);
+  //   }
+  // }, [user, navigate]);
+
   const [sliderState, setSliderState] = useState<SliderState>({
     currentIndex: 0,
     isAnimating: false,

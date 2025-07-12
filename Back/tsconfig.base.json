@@ -2,7 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@common-libs/*": ["common-libs/*"]
+      "@common-libs/*": ["common-libs/*"],
+      "@user-service/*": ["user-service/src/*"]
     }
   }
 }

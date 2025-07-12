@@ -2,6 +2,8 @@ import express, { Request, Response, Router } from "express";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 
+import { createTransporter } from "../../../common/mailer";
+
 dotenv.config(); // Load environment variables from .env file
 
 const router: Router = express.Router();
@@ -18,18 +20,6 @@ interface OtpStore {
 let otpStore: OtpStore = {};
 
 // Configure Nodemailer transporter
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.EMAIL_USER as string, // Environment variable for email
-      pass: process.env.EMAIL_PASS as string, // Environment variable for password
-    },
-    tls: {
-      rejectUnauthorized: false, // For development purposes
-    },
-  });
-};
 
 // Route to send OTP to email
 router.post("/send-otp", async (req: Request, res: Response): Promise<void> => {

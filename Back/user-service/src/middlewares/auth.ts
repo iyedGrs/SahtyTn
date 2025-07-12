@@ -1,46 +1,21 @@
-import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import User from "../models/User";
-import { IJwtPayload } from "../types";
 
-// Extend the Request interface to include userId
-declare global {
-  namespace Express {
-    interface Request {
-      userId?: any;
-    }
-  }
-}
+import jwt from "jsonwebtoken";
 
-const authenticateUser = async (
+export function authenticateToken(
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {
-  console.log("middleware called ");
-  const token = req.header("Authorization")?.replace("Bearer ", "");
-
+) {
+  const token = req.cookies.token;
   if (!token) {
-    res.status(401).json({ message: "Unauthorized" });
-    return;
+    return res.sendStatus(401).json({ message: "Unauthorized" });
   }
-
-  try {
-    const decoded = jwt.verify(
-      token,
-      process.env.JWT_SECRET as string
-    ) as IJwtPayload;
-    req.userId = await User.findById(decoded.id).select("-password");
-
-    if (!req.userId) {
-      res.status(404).json({ message: "User not found, failed to authorize" });
-      return;
+  jwt.verify(token, process.env.JWT_SECRET!, (err: any, user: any) => {
+    if (err) {
+      return res.sendStatus(403).json({ message: "Forbidden" });
     }
-
+    (req as any).user = user;
     next();
-  } catch (error) {
-    res.status(401).json({ message: "Token is not valid" });
-  }
-};
-
-export default authenticateUser;
+  });
+}
