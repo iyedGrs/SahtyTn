@@ -79,21 +79,27 @@ router.post("/login", async (req: Request, res: Response): Promise<void> => {
     );
 
     // Respond with the access token
-    const userResponse: IUserResponse = {
-      _id: user._id ? user._id.toString() : "",
-      username: user.username,
-      email: user.email,
-      date: user.date,
-      role: user.role,
-      id_doctor: user.id_doctor,
-    };
+    // const userResponse: IUserResponse = {
+    //   _id: user._id ? user._id.toString() : "",
+    //   username: user.username,
+    //   email: user.email,
+    //   date: user.date,
+    //   role: user.role,
+    //   id_doctor: user.id_doctor,
+    // };
 
-    const response: IAuthResponse = {
-      user: userResponse,
-      token: accessToken,
-    };
+    // const response: IAuthResponse = {
+    //   user: userResponse,
+    //   token: accessToken,
+    // };
 
-    res.status(200).json(response);
+    // res.status(200).json(response);
+    res.cookie("token", accessToken, {
+      httpOnly: true,
+      sameSite: "strict",
+      maxAge: 60 * 60 * 1000,
+    });
+    res.json({ message: "Login successful" });
   } catch (err: any) {
     console.error(err.message); // Log the error for debugging purposes
     res.status(500).json({ message: "Internal Server Error" });
