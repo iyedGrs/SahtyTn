@@ -18,6 +18,7 @@ app.use(express.json());
 // Routes
 app.use("/auth", authRoute);
 app.use("/api/otp", otpRoute);
+app.use("/api/user", require("./routes/user-routes").default);
 
 // Health check endpoint
 app.get("/health", (req: express.Request, res: express.Response) => {
