@@ -8,6 +8,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { submitContact } from "@/features/user/contactActions";
+import { useSubmitContactMutation } from "@/store/state/api";
 
 interface ContactFormData {
   email: string;
@@ -19,9 +20,11 @@ interface ContactFormData {
 const Contact: React.FC = () => {
   const { setValue, register, handleSubmit, reset } =
     useForm<ContactFormData>();
-  const { isLoading, error, success } = useSelector(
-    (state: RootState) => state.contact
-  );
+  // const { isLoading, error, success } = useSelector(
+  //   (state: RootState) => state.contact
+  // );
+  const [submitContact, { isLoading, error, status }] =
+    useSubmitContactMutation(undefined);
   // const handleLogin = async (data: LoginFormData) => {
   //   try {
   //     const resultAction = await dispatch(loginUser(data) as any).unwrap();
@@ -30,11 +33,11 @@ const Contact: React.FC = () => {
   //     alert("login Failed" + err);
   //   }
   // };
-  const dispatch = useDispatch();
+  const success = status === "fulfilled";
 
   const handleContactForm = async (data: ContactFormData): Promise<void> => {
     try {
-      await dispatch(submitContact(data) as any).unwrap();
+      await submitContact(data).unwrap();
       if (success) {
         toast.success("Message sent successfully!", {
           position: "bottom-right",
