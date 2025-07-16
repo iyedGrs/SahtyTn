@@ -6,19 +6,14 @@ import LoadingFallback from "../components/LoadingFallback";
 import { useGetCurrentUserQuery } from "@/store/state/api";
 
 const PublicLayout: React.FC = () => {
-  const {
-    data: userInfo,
-    isLoading,
-    isFetching,
-  } = useGetCurrentUserQuery(undefined);
-
-  if (isLoading || isFetching) {
+  const { data: userInfo, isLoading } = useGetCurrentUserQuery(undefined);
+  const location = useLocation();
+  if (isLoading) {
     return <LoadingFallback message="Checking authentication..." />;
   }
   if (userInfo && userInfo.role) {
     return <Navigate to={`/${userInfo.role}`} replace />;
   }
-  const location = useLocation();
   const currentPath = location.pathname;
   const isHomePage = currentPath === "/home";
   return (
