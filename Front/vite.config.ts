@@ -10,4 +10,16 @@ export default defineConfig({
       '@': '/src', // This allows you to use '@' as an alias for the src directory
     },
   },
+  server: {
+    host: true, // or "0.0.0.0"
+    allowedHosts: [
+      'aurora-vm.francecentral.cloudapp.azure.com'
+    ],
+    proxy: {
+      '/api': {
+        target: 'http://api-gateway',
+        changeOrigin: true,
+      },
+    },
+  }
 })

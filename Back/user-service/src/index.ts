@@ -17,7 +17,7 @@ const app = express();
 // app.use(cors());
 app.use(
   cors({
-    origin: "http://localhost:5173", // <-- your React app's URL
+    origin: true,
     credentials: true, // <-- allow cookies to be sent
   })
 );

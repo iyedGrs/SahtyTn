@@ -7,6 +7,8 @@ ENV PORT=3002
 
 WORKDIR /workspace
 COPY tsconfig.base.json ./
+COPY common-libs/ /workspace/common-libs/
+COPY user-service/src/types/ /workspace/user-service/src/types/
 WORKDIR /workspace/appointment-service
 
 COPY appointment-service/package*.json ./
@@ -24,4 +26,4 @@ EXPOSE 3002
 
 
 
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "npm", "run", "dev" ]

@@ -7,8 +7,9 @@ import appointment_routes from "./routes/appointment-routes";
 dotenv.config();
 
 const app = express();
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
-app.use(cors());
+app.use(cors({ origin: FRONTEND_URL || true }));
 app.use(express.json());
 
 // Routes

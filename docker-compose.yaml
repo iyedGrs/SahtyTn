@@ -5,12 +5,13 @@ services:
       dockerfile: user-service/Dockerfile.dev
     ports:
       - "3000:3000"
+    restart: unless-stopped
     networks:
       - sahtytn-network
+    env_file:
+      - ./Back/.env
     environment:
       - USER_SERVICE_PORT=3000
-    volumes:
-      - ./Back/user-service:/workspace/user-service
     container_name: user-service-container
 
   messaging-service:
@@ -19,12 +20,13 @@ services:
       dockerfile: messaging-service/Dockerfile.dev
     ports:
       - "3001:3001"
+    restart: unless-stopped
     networks:
       - sahtytn-network
+    env_file:
+      - ./Back/.env
     environment:
       - MESSAGING_SERVICE_PORT=3001
-    volumes:
-      - ./Back/messaging-service:/workspace/messaging-service
     container_name: messaging-service-container
 
   appointment-service:
@@ -33,13 +35,29 @@ services:
       dockerfile: appointment-service/Dockerfile.dev
     ports:
       - "3002:3002"
+    restart: unless-stopped
     networks:
       - sahtytn-network
+    env_file:
+      - ./Back/.env
     environment:
-      - APPOINTMENT_SERVICE=3002
-    volumes:
-      - ./Back/appointment-service/workspace/appointment-service
+      - APPOINTMENT_SERVICE_PORT=3002
     container_name: appointment-service-container
+
+  api-gateway:
+    image: nginx:latest
+    restart: unless-stopped
+    depends_on:
+      - user-service
+      - messaging-service
+      - appointment-service
+    ports:
+      - "8080:80"
+    networks:
+      - sahtytn-network
+    volumes:
+      - ./Back/api-gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    container_name: api-gateway-container
 
   frontend:
     build:
@@ -47,6 +65,9 @@ services:
       dockerfile: Dockerfile.dev
     ports:
       - "5173:5173"
+    restart: unless-stopped
+    depends_on:
+      - api-gateway
     networks:
       - sahtytn-network
     container_name: frontend-container
@@ -57,4 +78,3 @@ networks:
   sahtytn-network:
     name: sahtytn-network
     driver: bridge
-    external: true

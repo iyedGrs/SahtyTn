@@ -8,12 +8,13 @@ import contactRoute from "./routes/contact";
 dotenv.config();
 
 const app = express();
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 // Middleware
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Adjust this to your frontend URL
+    origin: FRONTEND_URL || true,
   })
 );
 app.use(express.json());
