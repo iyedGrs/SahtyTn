@@ -5,50 +5,51 @@ interface StepProgressBarProps {
 }
 
 const StepProgressBar: React.FC<StepProgressBarProps> = ({ currentStep }) => {
-  // Step names
-  const steps = ["Date/Heure", "Vérification", "Confirmation", "Succès"];
+  const steps = ["Date & Heure", "Vérification", "Succès"];
+
+  // Normalize step (1-based to 0-based for array indexing)
+  const normalizedStep = currentStep - 1;
 
   return (
-    <div className="w-full px-8 py-4 max-w-screen-lg mx-auto">
+    <div className="w-full px-8 py-8 max-w-screen-lg mx-auto">
       {/* Progress Line */}
-      <div className="relative flex items-center justify-between">
+      <div className="relative flex items-center justify-between z-0">
         {/* Full Progress Bar */}
-        <div className="absolute top-1/2 left-0 right-0 h-3 bg-gray-300 rounded-full" />
-        {/* Progress up to current step */}
+        <div className="absolute top-1/2 left-0 w-full h-[4px] bg-gray-200 -z-10 rounded-full" />
+        {/* Active Progress Bar */}
         <div
-          className="absolute top-1/2 left-0 h-3 bg-yellow-500 rounded-full transition-all duration-500 ease-in-out"
-          style={{ width: `${(currentStep / (steps.length - 1)) * 100}%` }}
+          className="absolute top-1/2 left-0 h-[4px] bg-[#66BAAB] -z-10 rounded-full transition-all duration-500 ease-in-out"
+          style={{ width: `${(normalizedStep / (steps.length - 1)) * 100}%` }}
         />
         {steps.map((step, index) => (
           <div
             key={index}
-            className="relative flex flex-col items-center text-center"
+            className="flex flex-col items-center flex-1 z-10"
           >
             {/* Step Circle */}
             <div
-              className={`w-12 h-12 flex items-center justify-center rounded-full border-2 mb-6
+              className={`w-12 h-12 flex items-center justify-center rounded-full font-bold text-lg mb-3 shadow-md transition-all duration-500 ease-in-out
               ${
-                index <= currentStep
-                  ? "bg-yellow-500 border-yellow-500"
-                  : "bg-gray-300 border-gray-300"
+                index < normalizedStep
+                  ? "bg-[#66BAAB] text-white ring-4 ring-[#66BAAB]/30"
+                  : index === normalizedStep
+                  ? "bg-white text-[#66BAAB] border-[3px] border-[#66BAAB] ring-4 ring-[#66BAAB]/20"
+                  : "bg-white border-[3px] border-gray-200 text-gray-400"
               }
-              transition-all duration-500 ease-in-out shadow-lg
               `}
             >
-              {index < currentStep ? (
-                <span className="text-white text-lg font-bold">✔</span>
-              ) : index === currentStep ? (
-                <span className="text-white text-lg font-bold">
-                  {index + 1}
-                </span>
+              {index < normalizedStep ? (
+                <span className="material-symbols-outlined font-bold text-xl">check</span>
               ) : (
-                <span className="text-black text-lg font-bold">
-                  {index + 1}
-                </span>
+                <span>{index + 1}</span>
               )}
             </div>
             {/* Step Label */}
-            <span className="text-md font-semibold mt-2 text-gray-700">
+            <span
+              className={`text-sm font-semibold tracking-wide transition-colors duration-500 ${
+                index <= normalizedStep ? "text-gray-800" : "text-gray-400"
+              }`}
+            >
               {step}
             </span>
           </div>
