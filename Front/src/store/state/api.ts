@@ -3,6 +3,7 @@
 // login / register mutations
 
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { API_BASE_URL } from "../../config/api";
 
 interface User {
   _id: string;
@@ -15,7 +16,7 @@ interface User {
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:8080/api",
+    baseUrl: API_BASE_URL,
     credentials: "include", //for cookies
   }),
   tagTypes: ["Auth", "Contact"],

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../features/user/authActions";
 import { RegisterFields } from "../../data/NavBarUser";
 import { useForm } from "react-hook-form";
 import { useRegisterUserMutation } from "@/store/state/api";
+import AuthDebugPanel, { AuthDebugEvent } from "./AuthDebugPanel";
+import { API_BASE_URL } from "../../config/api";
 
 interface RegisterFormData {
   role: string;
@@ -22,31 +22,89 @@ interface SelectedOption {
   index: number | null;
 }
 
-interface AuthState {
-  userInfo: any;
-  loading: boolean;
-  error: string | null;
-}
+const extractErrorMessage = (error: unknown): string => {
+  if (typeof error === "string") return error;
 
-interface RootState {
-  auth: AuthState;
-}
+  if (error && typeof error === "object") {
+    const err = error as {
+      data?: { message?: string; error?: string } | string;
+      error?: string;
+      message?: string;
+    };
+
+    if (typeof err.data === "string") return err.data;
+    if (err.data?.message) return err.data.message;
+    if (err.data?.error) return err.data.error;
+    if (err.error) return err.error;
+    if (err.message) return err.message;
+  }
+
+  return "Unknown error";
+};
+
+const sanitizePayload = (payload: Record<string, unknown>) => {
+  const clone = { ...payload };
+  if (typeof clone.password === "string") clone.password = "***";
+  return clone;
+};
+
+const withNetworkHint = (message: string, endpoint: string): string => {
+  if (message.includes("Failed to fetch")) {
+    return `${message}. Could not reach ${endpoint}`;
+  }
+  return message;
+};
 
 const Register: React.FC = () => {
+  const registerEndpoint = `${API_BASE_URL}/user/auth/register`;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  // const { userInfo, loading, error } = useSelector((state: RootState) => state.auth);
   const { register, handleSubmit, setValue, reset } =
     useForm<RegisterFormData>();
   const [registerUser, { isLoading }] = useRegisterUserMutation();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [debugEvents, setDebugEvents] = useState<AuthDebugEvent[]>([]);
+
+  const pushDebugEvent = (
+    step: string,
+    status: AuthDebugEvent["status"],
+    payload: unknown
+  ) => {
+    const event: AuthDebugEvent = {
+      id: Date.now() + Math.floor(Math.random() * 1000),
+      timestamp: new Date().toISOString(),
+      step,
+      status,
+      payload,
+    };
+    setDebugEvents((prev) => [...prev, event]);
+    console.log("[AuthDebug]", step, payload);
+  };
+
   const handleRegister = async (data: RegisterFormData): Promise<void> => {
+    setErrorMessage(null);
     const { Confirmpassword, ...filteredData } = data;
+
+    pushDebugEvent("REGISTER_REQUEST", "info", {
+      endpoint: registerEndpoint,
+      body: sanitizePayload(filteredData),
+    });
+
     try {
-      await registerUser(filteredData).unwrap();
+      const response = await registerUser(filteredData).unwrap();
+      pushDebugEvent("REGISTER_SUCCESS", "success", response);
       reset();
       navigate("/login");
     } catch (error) {
-      alert("Register Failed" + error);
+      const message = withNetworkHint(
+        extractErrorMessage(error),
+        registerEndpoint
+      );
+      setErrorMessage(message);
+      pushDebugEvent("REGISTER_ERROR", "error", {
+        endpoint: registerEndpoint,
+        message,
+        raw: error,
+      });
     }
   };
 
@@ -82,6 +140,16 @@ const Register: React.FC = () => {
             onSubmit={handleSubmit(handleRegister)}
             className="space-y-6 flex   justify-center flex-col"
           >
+            <div className="w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-700">
+              Register endpoint: {registerEndpoint}
+            </div>
+
+            {errorMessage ? (
+              <div className="w-full rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+                Register failed: {errorMessage}
+              </div>
+            ) : null}
+
             <div className="space-y-4">
               <select
                 name="cars"
@@ -172,6 +240,11 @@ const Register: React.FC = () => {
                 Register
               </button>
             </div>
+
+            <AuthDebugPanel
+              events={debugEvents}
+              onClear={() => setDebugEvents([])}
+            />
           </form>
         </div>
         {/* Right Side: Image */}

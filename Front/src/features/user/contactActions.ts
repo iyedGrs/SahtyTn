@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_BASE_URL } from "../../config/api";
 
 export interface ContactInfo {
   email: string;
@@ -7,7 +8,7 @@ export interface ContactInfo {
   message: string;
 }
 
-const backendURL = "http://localhost:8080/api/message";
+const backendURL = `${API_BASE_URL}/message`;
 
 export const submitContact = createAsyncThunk<
   ContactInfo,

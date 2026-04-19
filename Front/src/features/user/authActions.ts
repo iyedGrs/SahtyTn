@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_BASE_URL } from "../../config/api";
 
-const backendURL = "http://localhost:8080/api/user";
+const backendURL = `${API_BASE_URL}/user`;
 
 interface LoginCredentials {
   email: string;
@@ -42,6 +43,7 @@ export const loginUser = createAsyncThunk<
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
     const response = await axios.post(
       `${backendURL}/auth/login`,
@@ -69,6 +71,7 @@ export const registerUser = createAsyncThunk<
       headers: {
         "Content-Type": "application/json",
       },
+      withCredentials: true,
     };
     const response = await axios.post(
       `${backendURL}/auth/register`,

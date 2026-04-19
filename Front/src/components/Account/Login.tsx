@@ -1,16 +1,10 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../features/user/authActions";
+import React, { useState } from "react";
 import { inputFields } from "../../data/NavBarUser";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { setUser } from "@/store/slices/user-slice";
-import {
-  api,
-  useGetCurrentUserQuery,
-  useLoginUserMutation,
-} from "@/store/state/api";
-import { RootState } from "@/store/store";
+import { useGetCurrentUserQuery, useLoginUserMutation } from "@/store/state/api";
+import AuthDebugPanel, { AuthDebugEvent } from "./AuthDebugPanel";
+import { API_BASE_URL } from "../../config/api";
 
 interface LoginFormData {
   email: string;
@@ -30,26 +24,97 @@ interface LoginFormData {
 //   auth: AuthState;
 // }
 
+const extractErrorMessage = (error: unknown): string => {
+  if (typeof error === "string") return error;
+
+  if (error && typeof error === "object") {
+    const err = error as {
+      data?: { message?: string; error?: string } | string;
+      error?: string;
+      message?: string;
+    };
+
+    if (typeof err.data === "string") return err.data;
+    if (err.data?.message) return err.data.message;
+    if (err.data?.error) return err.data.error;
+    if (err.error) return err.error;
+    if (err.message) return err.message;
+  }
+
+  return "Unknown error";
+};
+
+const sanitizePayload = <T extends object>(payload: T): T => {
+  const clone = { ...payload } as T & { password?: unknown };
+  if (typeof clone.password === "string") clone.password = "***";
+  return clone as T;
+};
+
+const withNetworkHint = (message: string, endpoint: string): string => {
+  if (message.includes("Failed to fetch")) {
+    return `${message}. Could not reach ${endpoint}`;
+  }
+  return message;
+};
+
 const Login: React.FC = () => {
-  const [loginUser, { isSuccess }] = useLoginUserMutation();
-  const { data: data, refetch } = useGetCurrentUserQuery(undefined);
-  const dispatch = useDispatch();
+  const loginEndpoint = `${API_BASE_URL}/user/auth/login`;
+  const meEndpoint = `${API_BASE_URL}/user/auth/me`;
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+  const { refetch } = useGetCurrentUserQuery(undefined);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm<LoginFormData>();
-  console.log("this is the data from the useGetCurrentUserQuery", data);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [debugEvents, setDebugEvents] = useState<AuthDebugEvent[]>([]);
+
+  const pushDebugEvent = (
+    step: string,
+    status: AuthDebugEvent["status"],
+    payload: unknown
+  ) => {
+    const event: AuthDebugEvent = {
+      id: Date.now() + Math.floor(Math.random() * 1000),
+      timestamp: new Date().toISOString(),
+      step,
+      status,
+      payload,
+    };
+    setDebugEvents((prev) => [...prev, event]);
+    console.log("[AuthDebug]", step, payload);
+  };
+
   const handleLogin = async (data: LoginFormData) => {
+    setErrorMessage(null);
+    pushDebugEvent("LOGIN_REQUEST", "info", {
+      endpoint: loginEndpoint,
+      body: sanitizePayload(data),
+    });
+
     try {
-      await loginUser(data).unwrap();
+      const loginResponse = await loginUser(data).unwrap();
+      pushDebugEvent("LOGIN_SUCCESS", "success", loginResponse);
+
       const user = await refetch().unwrap();
+      pushDebugEvent("CURRENT_USER_SUCCESS", "success", {
+        endpoint: meEndpoint,
+        body: user,
+      });
+
       if (user && user.role) {
-        // dispatch(setUser(user)); // filling the user state in Redux
         navigate(`/${user.role}`);
       } else {
-        alert("User role is not defined");
+        const msg = "User role is not defined";
+        setErrorMessage(msg);
+        pushDebugEvent("CURRENT_USER_ERROR", "error", { message: msg, user });
       }
     } catch (err) {
-      alert("login Failed" + err);
-      console.log("the error is", err);
+      const message = withNetworkHint(extractErrorMessage(err), loginEndpoint);
+      setErrorMessage(message);
+      pushDebugEvent("LOGIN_ERROR", "error", {
+        endpoint: loginEndpoint,
+        message,
+        raw: err,
+      });
     }
   };
   return (
@@ -82,6 +147,16 @@ const Login: React.FC = () => {
             onSubmit={handleSubmit(handleLogin)}
             className="space-y-6 flex items-center justify-center flex-col"
           >
+            <div className="w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-700">
+              Login endpoint: {loginEndpoint}
+            </div>
+
+            {errorMessage ? (
+              <div className="w-full rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
+                Login failed: {errorMessage}
+              </div>
+            ) : null}
+
             <div className="space-y-4">
               {inputFields.map((field) => (
                 <div key={field.id} className="">
@@ -128,12 +203,18 @@ const Login: React.FC = () => {
             </div>
             <div>
               <button
+                disabled={isLoading}
                 type="submit"
                 className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#0C5D69] hover:bg-[#0a4d5b] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Sign in
+                {isLoading ? "Signing in..." : "Sign in"}
               </button>
             </div>
+
+            <AuthDebugPanel
+              events={debugEvents}
+              onClear={() => setDebugEvents([])}
+            />
           </form>
         </div>
         {/* Right Side: Image */}
